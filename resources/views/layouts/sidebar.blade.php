@@ -1,7 +1,7 @@
 <div id="sidebar-menu">
     <ul>
         <li>
-            <a href="#" class="waves-effect">
+            <a href="{{ route('dashboard') }}" class="waves-effect">
                 <i class="mdi mdi-airplay"></i>
                 <span> Dashboard</span>
             </a>
@@ -19,7 +19,7 @@
             </a>
         </li>
         <li>
-            <a href="#" class="waves-effect">
+            <a href="{{ route('item.index') }}" class="waves-effect">
                 <i class="mdi mdi-format-list-bulleted"></i>
                 <span> Alat & Item</span>
             </a>

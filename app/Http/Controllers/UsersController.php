@@ -22,7 +22,7 @@ class UsersController extends Controller
         $user = User::orderBy('id', 'DESC')->get();
         $data = [
             'menu' => $this->menu,
-            'title' => $this->menu,
+            'title' => 'list',
             'list' => $user
         ];
         return view('user.list')->with($data);

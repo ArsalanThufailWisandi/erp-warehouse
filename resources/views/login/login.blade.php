@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-    <title>Zoter - Responsive Bootstrap 4 Admin Dashboard</title>
+    <title>Provice Group - Integrated Property Services</title>
     <meta content="Admin Dashboard" name="description" />
     <meta content="Mannatthemes" name="author" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -23,7 +23,8 @@
         <div class="card">
             <div class="card-body">
                 <div class="text-center">
-                    <a href="#" class="logo logo-admin"><img src="assets/images/e-logo.png" height="20" alt="logo"></a>
+                    <a href="#" class="logo logo-admin"><img src="{{ URL::asset('assets/images/logo.png') }}"
+                            height="100" alt="logo"></a>
                 </div>
                 @if (count($errors) > 0)
                     <div class="px-2">

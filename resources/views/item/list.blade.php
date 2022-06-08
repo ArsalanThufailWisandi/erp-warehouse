@@ -20,17 +20,17 @@
                     <div class="card">
                         <div class="card-body">
                             <p class="text-muted mb-4 font-14">
-                                <a class="btn btn-success" href="{{ route('vendor.create') }}">Tambah</a>
+                                <a class="btn btn-success" href="{{ route('item.create') }}">Tambah</a>
                             </p>
                             <table id="datatable-buttons" class="table table-striped table-bordered w-100">
                                 <thead>
                                     <tr>
                                         <th>No</th>
+                                        <th>Gambar</th>
                                         <th>Nama</th>
-                                        <th>Pic</th>
-                                        <th>Email</th>
-                                        <th>No Tlp</th>
-                                        <th>Alamat</th>
+                                        <th>Type</th>
+                                        <th>Qty</th>
+                                        <th>Keterangan</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -38,25 +38,27 @@
                                     @foreach ($list as $item)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
+                                            <td class="text-center"><img
+                                                    src="{{ URL::asset('files/item/' . $item->gambar) }}"
+                                                    style="width: 150px;height:150px;" class="rounded-circle"></td>
                                             <td>{{ $item->nama }}</td>
-                                            <td>{{ $item->pic }}</td>
-                                            <td>{{ $item->email }}</td>
-                                            <td>{{ $item->no_tlp }}</td>
-                                            <td>{{ $item->alamat }}</td>
+                                            <td>{{ $item->type }}</td>
+                                            <td>{{ $item->qty }}</td>
+                                            <td>{{ $item->keterangan }}</td>
                                             <td>
                                                 <div class="tabledit-toolbar btn-toolbar" style="text-align: left;">
                                                     <div class="btn-group btn-group-sm" style="float: none;">
                                                         <?php $id = Crypt::encryptString($item->id); ?>
                                                         <form class="delete-form"
-                                                            action="{{ route('vendor.destroy', $id) }}" method="POST">
+                                                            action="{{ route('item.destroy', $id) }}" method="POST">
                                                             @csrf
                                                             @method('DELETE')
-                                                            <a href="{{ route('vendor.show', $id) }}"
+                                                            <a href="{{ route('item.show', $id) }}"
                                                                 class="tabledit-edit-button btn btn-sm btn-primary"
                                                                 style="float: none; margin: 5px;">
                                                                 <span class="ti-eye"></span>
                                                             </a>
-                                                            <a href="{{ route('vendor.edit', $id) }}"
+                                                            <a href="{{ route('item.edit', $id) }}"
                                                                 class="tabledit-edit-button btn btn-sm btn-info"
                                                                 style="float: none; margin: 5px;">
                                                                 <span class="ti-pencil"></span>

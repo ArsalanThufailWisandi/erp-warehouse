@@ -5,11 +5,11 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-    <title>Zoter - Responsive Bootstrap 4 Admin Dashboard</title>
+    <title>Provice Group - Integrated Property Services</title>
     <meta content="Admin Dashboard" name="description" />
     <meta content="Mannatthemes" name="author" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <link rel="shortcut icon" href="{{ URL::asset('assets/images/favicon.ico') }}">
+    <link rel="shortcut icon" href="{{ URL::asset('assets/images/logo.png') }}">
     <!-- DataTables -->
     <link href="{{ URL::asset('assets/plugins/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet"
         type="text/css" />
@@ -56,8 +56,9 @@
             <div class="topbar-left">
                 <div class="text-center">
                     <!--<a href="index.html" class="logo"><i class="mdi mdi-assistant"></i> Zoter</a>-->
-                    <a href="index.html" class="logo">
-                        <img src="assets/images/logo-lg.png" alt="" class="logo-large">
+                    <a href="#" class="logo">
+                        <img src="{{ URL::asset('assets/images/logo.png') }}" alt="" class=""
+                            style="height: 60px">
                     </a>
                 </div>
             </div>
@@ -79,7 +80,7 @@
             </div>
             <!-- content -->
             <footer class="footer">
-                Sistem Informasi Warehouse.
+                Provice Group - Integrated Property Services &copy; Sistem Informasi Warehouse.
             </footer>
         </div>
         <!-- End Right content here -->

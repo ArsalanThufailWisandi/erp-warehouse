@@ -23,7 +23,7 @@ class VendorController extends Controller
         $vendor = VendorModel::orderBy('id', 'DESC')->get();
         $data = [
             'menu' => $this->menu,
-            'title' => $this->menu,
+            'title' => 'list',
             'list' => $vendor
         ];
         return view('vendor.list')->with($data);
@@ -89,7 +89,7 @@ class VendorController extends Controller
     {
         $data = [
             'menu' => $this->menu,
-            'title' => 'add',
+            'title' => 'view',
             'item' => VendorModel::findorfail(Crypt::decryptString($id))
         ];
         return view('vendor.view')->with($data);

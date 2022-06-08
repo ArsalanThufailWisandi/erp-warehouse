@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ItemController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\VendorController;
@@ -33,5 +34,6 @@ Route::group(
     function () {
         Route::resource('vendor', VendorController::class);
         Route::resource('user', UsersController::class);
+        Route::resource('item', ItemController::class);
     }
 );

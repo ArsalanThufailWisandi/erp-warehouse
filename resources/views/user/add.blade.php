@@ -7,7 +7,7 @@
                     <div class="page-title-box">
                         <div class="btn-group float-right">
                             <ol class="breadcrumb hide-phone p-0 m-0">
-                                <li class="breadcrumb-item active">{{ ucfirst($title) }}</li>
+                                <li class="breadcrumb-item active">{{ ucwords($title) }}</li>
                             </ol>
                         </div>
                         <h4 class="page-title">{{ strtoupper($menu) }}</h4>
