@@ -162,4 +162,41 @@ class UsersController extends Controller
             return back();
         }
     }
+
+    public function profile(Request $request, $id)
+    {
+        $data = [
+            'menu' => $this->menu,
+            'title' => 'profile',
+            'item' => User::findorfail(Crypt::decryptString($id))
+        ];
+        return view('user.profile')->with($data);
+    }
+
+    public function update_profile(Request $request, $id)
+    {
+        $decrypted_id = Crypt::decryptString($id);
+        $validated = $request->validate([
+            'name' => 'required|max:64',
+            'email' => "required|email:dns|max:64|unique:users,email,$decrypted_id,id,deleted_at,NULL",
+            'password' => 'required|max:128',
+        ]);
+        DB::beginTransaction();
+        try {
+            $user = User::findOrFail($decrypted_id);
+            $user->name = $validated['name'];
+            $user->email = $validated['email'];
+            if ($request->password_old) {
+                $user->password = bcrypt($validated['password']);
+            }
+            $user->save();
+            DB::commit();
+            AlertHelper::updateAlert(true);
+            return back();
+        } catch (\Throwable $err) {
+            DB::rollBack();
+            AlertHelper::updateAlert(false);
+            return back();
+        }
+    }
 }

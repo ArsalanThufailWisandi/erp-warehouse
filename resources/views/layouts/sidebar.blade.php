@@ -25,7 +25,7 @@
             </a>
         </li>
         <li>
-            <a href="#" class="waves-effect">
+            <a href="{{ route('rak.index') }}" class="waves-effect">
                 <i class="mdi mdi-apps"></i>
                 <span> Rak</span>
             </a>
@@ -34,16 +34,16 @@
             <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-table"></i><span>
                     Transaksi </span> <span class="float-right"><i class="mdi mdi-chevron-right"></i></span></a>
             <ul class="list-unstyled">
-                <li><a href="#">Pembelian</a></li>
-                <li><a href="#">Penjualan</a></li>
+                <li><a href="#">Penerimaan</a></li>
+                <li><a href="#">Pengeluaran</a></li>
             </ul>
         </li>
         <li class="has_sub">
             <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-database"></i><span>
                     Laporan </span> <span class="float-right"><i class="mdi mdi-chevron-right"></i></span></a>
             <ul class="list-unstyled">
-                <li><a href="#">Pembelian</a></li>
-                <li><a href="#">Penjualan</a></li>
+                <li><a href="#">Penerimaan</a></li>
+                <li><a href="#">Pengeluaran</a></li>
             </ul>
         </li>
     </ul>

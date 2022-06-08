@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\RakController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\VendorController;
 use Illuminate\Support\Facades\Route;
@@ -34,6 +35,9 @@ Route::group(
     function () {
         Route::resource('vendor', VendorController::class);
         Route::resource('user', UsersController::class);
+        Route::get('/profile/{id}', [UsersController::class, 'profile'])->name('user.profile');
+        Route::patch('/update_profile/{id}', [UsersController::class, 'update_profile'])->name('user.update_profile');
         Route::resource('item', ItemController::class);
+        Route::resource('rak', RakController::class);
     }
 );

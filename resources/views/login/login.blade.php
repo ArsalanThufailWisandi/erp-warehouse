@@ -9,7 +9,7 @@
     <meta content="Admin Dashboard" name="description" />
     <meta content="Mannatthemes" name="author" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <link rel="shortcut icon" href="{{ URL::asset('assets/images/favicon.ico') }}">
+    <link rel="shortcut icon" href="{{ URL::asset('assets/images/logo.png') }}">
     <link href="{{ URL::asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ URL::asset('assets/css/icons.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ URL::asset('assets/css/style.css') }}" rel="stylesheet" type="text/css">

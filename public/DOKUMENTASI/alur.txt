@@ -1,0 +1,15 @@
+#rak
+-view menampilkan data keseluruhan berdasarkan stock obat dan item
+#input penerimaan barang
+- input penerimaan barang header & detail barang [purchasing]
+- penempatan item obat dan alat ke lokasi rak [admin gudang]
+- untuk penerimaan alat create berdasarkan pcs (kode barang/barcode) [admin gudang]
+- item kode barang/barcode insert ke table kode item [admin gudang]
+- input rak berdasarkan group by obat dan item (no rak, tgl masuk, tgl expired)
+- update stock berdasarkan qty penerimaan [admin gudang]
+#input pengeluaran barang
+- input pengeluaran barang header & detail barang [sales]
+- input pengeluaran berdasarkan pesanan obat dan alat [admin gudang]
+- pilih obat dan alat berdasarkan rak [admin gudang]
+- approve pengeluaran barang & pengurangan stock [admin gudang]
+- pengembalian alat yang dikeluarkan barang sebelumnya [admin gudang]

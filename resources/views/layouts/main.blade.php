@@ -55,7 +55,6 @@
             <!-- LOGO -->
             <div class="topbar-left">
                 <div class="text-center">
-                    <!--<a href="index.html" class="logo"><i class="mdi mdi-assistant"></i> Zoter</a>-->
                     <a href="#" class="logo">
                         <img src="{{ URL::asset('assets/images/logo.png') }}" alt="" class=""
                             style="height: 60px">
