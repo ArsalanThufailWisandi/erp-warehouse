@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helper\AlertHelper;
 use App\Models\ItemModel;
+use App\Models\ReceiveDetailModel;
 use App\Models\VendorModel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -62,7 +63,7 @@ class ItemController extends Controller
         $request->validate([
             'nama' => 'required|max:64',
             'type' => 'required|max:64',
-            'file' => 'required|max:64|image',
+            'file' => 'required|image',
             'satuan' => 'required|max:64',
             'bentuk_barang' => 'required|max:64',
             'keterangan' => 'required|max:128',
@@ -203,5 +204,32 @@ class ItemController extends Controller
             AlertHelper::deleteAlert(false);
             return back();
         }
+    }
+
+    public function dropdown(Request $request)
+    {
+        $item = ItemModel::select('id', 'nama')->where('type', $request->type)->get();
+        return $item;
+    }
+
+    public function dropdown_receive(Request $request)
+    {
+        // TODO :: query builder
+        // $item = DB::table('tbl_m_do')
+        //     ->select('tbl_m_do.id', 'tbl_m_do.kode_do', 'tbl_m_pelanggan.nama_perusahaan')
+        //     ->join('tbl_m_invoices', 'tbl_m_invoices.do_id', '=', 'tbl_m_do.id', 'left')
+        //     ->join('tbl_m_so', 'tbl_m_so.id', '=', 'tbl_m_do.so_id')
+        //     ->join('tbl_m_alamat_pelanggan', 'tbl_m_alamat_pelanggan.id', '=', 'tbl_m_so.delivery_point')
+        //     ->join('tbl_m_pelanggan', 'tbl_m_pelanggan.id', '=', 'tbl_m_alamat_pelanggan.id_pelanggan')
+        //     ->where('tbl_m_do.status', '=', 'A')
+        //     ->wherenotnull('tbl_m_do.user_pengiriman_sampai')
+        //     ->whereNull('tbl_m_invoices.nomor_invoice')
+        //     ->orderBy('tbl_m_do.kode_do', 'DESC')
+        //     ->get();
+
+        // $item = ReceiveDetailModel::select('id', 'nama')->where('id_receive', $request->idReceive)->get();
+        $item = ReceiveDetailModel::where('id_receive', $request->id);
+        dd($item);
+        return $item;
     }
 }

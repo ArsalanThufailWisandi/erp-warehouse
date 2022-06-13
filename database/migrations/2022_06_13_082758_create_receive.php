@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateItem extends Migration
+class CreateReceive extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,10 @@ class CreateItem extends Migration
      */
     public function up()
     {
-        Schema::create('item', function (Blueprint $table) {
+        Schema::create('receive', function (Blueprint $table) {
             $table->id();
-            $table->string('nama', 64);
-            $table->string('gambar', 64);
-            $table->string('satuan', 64);
-            $table->string('type', 64);
-            $table->string('bentuk_barang', 64);
+            $table->string('kode_receive', 64);
+            $table->date('tgl_receive');
             $table->string('keterangan', 128);
             $table->unsignedBigInteger('id_vendor')->nullable();
             $table->foreign('id_vendor')->references('id')->on('vendor');
@@ -37,6 +34,6 @@ class CreateItem extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('item');
+        Schema::dropIfExists('receive');
     }
 }
