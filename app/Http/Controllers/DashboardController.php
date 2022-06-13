@@ -19,4 +19,9 @@ class DashboardController extends Controller
         ];
         return view('dashboard')->with($data);
     }
+
+    public function phpinfo()
+    {
+        return view('phpinfo');
+    }
 }

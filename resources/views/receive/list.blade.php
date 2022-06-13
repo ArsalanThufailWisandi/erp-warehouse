@@ -19,18 +19,21 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <p class="text-muted mb-4 font-14">
-                                <a class="btn btn-success" href="{{ route('item.create') }}">Tambah</a>
-                            </p>
+                            @if (Auth::user()->roles == 'Purchasing')
+                                <p class="text-muted mb-4 font-14">
+                                    <a class="btn btn-success" href="{{ route('receive.create') }}">Tambah</a>
+                                </p>
+                            @endif
                             <table id="datatable-buttons" class="table table-striped table-bordered w-100">
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Gambar</th>
-                                        <th>Nama</th>
-                                        <th>Type</th>
-                                        <th>Qty</th>
+                                        <th>Kode Receive</th>
+                                        <th>Tgl</th>
                                         <th>Keterangan</th>
+                                        <th>Vendor</th>
+                                        <th>User Input</th>
+                                        <th>Status</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -38,32 +41,53 @@
                                     @foreach ($list as $item)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td class="text-center"><img
-                                                    src="{{ URL::asset('files/item/' . $item->gambar) }}"
-                                                    style="width: 150px;height:150px;" class="rounded-circle"></td>
-                                            <td>{{ $item->nama }}</td>
-                                            <td>{{ $item->type }}</td>
-                                            <td>{{ $item->qty }}</td>
+                                            <td>{{ $item->kode_receive }}</td>
+                                            <td>{{ $item->tgl_receive }}</td>
                                             <td>{{ $item->keterangan }}</td>
+                                            <td>{{ $item->vendors->nama }}</td>
+                                            <td>{{ $item->users->name }}</td>
+                                            <td>
+                                                @if ($item->status == 'Aktif')
+                                                    <span class="badge badge-success">{{ $item->status }}</span>
+                                                @else
+                                                    <span class="badge badge-warning">{{ $item->status }}</span>
+                                                @endif
+                                            </td>
                                             <td>
                                                 <div class="tabledit-toolbar btn-toolbar" style="text-align: left;">
                                                     <div class="btn-group btn-group-sm" style="float: none;">
                                                         <?php $id = Crypt::encryptString($item->id); ?>
                                                         <form class="delete-form"
-                                                            action="{{ route('item.destroy', $id) }}" method="POST">
+                                                            action="{{ route('receive.destroy', $id) }}" method="POST">
                                                             @csrf
                                                             @method('DELETE')
+                                                            {{-- <a href="{{ route('receive.show', $id) }}"
+                                                                class="tabledit-edit-button btn btn-sm btn-primary"
+                                                                style="float: none; margin: 5px;">
+                                                                <span class="ti-eye"></span>
+                                                            </a> --}}
                                                             <button type="button"
                                                                 class="tabledit-delete-button btn btn-sm btn-danger delete_confirm"
                                                                 style="float: none; margin: 5px;">
                                                                 <span class="ti-trash"></span>
                                                             </button>
-                                                            <a href="{{ route('item.show', $id) }}"
-                                                                class="tabledit-edit-button btn btn-sm btn-primary"
+                                                            <a href="{{ route('receive.edit', $id) }}"
+                                                                class="tabledit-edit-button btn btn-sm btn-info"
                                                                 style="float: none; margin: 5px;">
-                                                                <span class="ti-eye"></span>
+                                                                <span class="ti-pencil"></span>
                                                             </a>
-                                                            <a href="{{ route('item.edit', $id) }}"
+                                                        </form>
+                                                        <form class="delete-form"
+                                                            action="{{ route('receive.approve_purchasing', $id) }}"
+                                                            method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="button"
+                                                                class="tabledit-delete-button btn btn-sm btn-success approve_confirm"
+                                                                style="float: none; margin: 5px;">
+                                                                <span class="ti-check"></span>
+                                                            </button>
+                                                            <a href="{{ route('receive.inventory', $id) }}"
                                                                 class="tabledit-edit-button btn btn-sm btn-info"
                                                                 style="float: none; margin: 5px;">
                                                                 <span class="ti-pencil"></span>
@@ -90,6 +114,22 @@
             Swal.fire({
                 title: 'Hapus Data',
                 text: 'Ingin menghapus data?',
+                icon: 'question',
+                showCloseButton: true,
+                showCancelButton: true,
+                cancelButtonText: "Batal",
+                focusConfirm: false,
+            }).then((value) => {
+                if (value.isConfirmed) {
+                    $(this).closest("form").submit()
+                }
+            });
+        });
+        $('.approve_confirm').on('click', function(event) {
+            event.preventDefault();
+            Swal.fire({
+                title: 'Approve Data',
+                text: 'Ingin approve data?',
                 icon: 'question',
                 showCloseButton: true,
                 showCancelButton: true,

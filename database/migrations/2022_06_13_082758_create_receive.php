@@ -15,10 +15,15 @@ class CreateReceive extends Migration
     {
         Schema::create('receive', function (Blueprint $table) {
             $table->id();
-            $table->string('gambar', 64);
-            $table->string('satuan', 64);
-            $table->date('tgl_expired');
+            $table->string('kode_receive', 64);
+            $table->date('tgl_receive');
+            $table->string('keterangan', 128);
+            $table->unsignedBigInteger('id_vendor')->nullable();
+            $table->foreign('id_vendor')->references('id')->on('vendor');
+            $table->unsignedBigInteger('id_user')->nullable();
+            $table->foreign('id_user')->references('id')->on('users');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

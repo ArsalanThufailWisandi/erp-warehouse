@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helper\AlertHelper;
 use App\Models\ItemModel;
+use App\Models\ReceiveDetailModel;
 use App\Models\VendorModel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -203,5 +204,26 @@ class ItemController extends Controller
             AlertHelper::deleteAlert(false);
             return back();
         }
+    }
+
+    public function dropdown(Request $request)
+    {
+        $item = ItemModel::select('id', 'nama')->where('type', $request->type)->get();
+        return $item;
+    }
+
+    public function dropdown_receive(Request $request)
+    {
+        // TODO :: query builder
+        $item = DB::table('receive')
+            ->select('item.*', 'receive_detail.id as id_receive_detail', 'receive_detail.id_receive')
+            ->join('receive_detail', 'receive_detail.id_receive', '=', 'receive.id')
+            ->join('item', 'item.id', '=', 'receive_detail.id_item')
+            ->where('receive.id', '=', $request->idReceive)
+            ->where('receive_detail.type', '=', $request->type)
+            ->groupBy('receive_detail.type')
+            ->orderBy('item.nama', 'ASC')
+            ->get();
+        return $item;
     }
 }

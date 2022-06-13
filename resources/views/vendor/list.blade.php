@@ -51,6 +51,11 @@
                                                             action="{{ route('vendor.destroy', $id) }}" method="POST">
                                                             @csrf
                                                             @method('DELETE')
+                                                            <button type="button"
+                                                                class="tabledit-delete-button btn btn-sm btn-danger delete_confirm"
+                                                                style="float: none; margin: 5px;">
+                                                                <span class="ti-trash"></span>
+                                                            </button>
                                                             <a href="{{ route('vendor.show', $id) }}"
                                                                 class="tabledit-edit-button btn btn-sm btn-primary"
                                                                 style="float: none; margin: 5px;">
@@ -61,11 +66,6 @@
                                                                 style="float: none; margin: 5px;">
                                                                 <span class="ti-pencil"></span>
                                                             </a>
-                                                            <button type="button"
-                                                                class="tabledit-delete-button btn btn-sm btn-danger delete_confirm"
-                                                                style="float: none; margin: 5px;">
-                                                                <span class="ti-trash"></span>
-                                                            </button>
                                                         </form>
                                                     </div>
                                                 </div>

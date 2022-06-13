@@ -21,7 +21,7 @@
         <li>
             <a href="{{ route('item.index') }}" class="waves-effect">
                 <i class="mdi mdi-format-list-bulleted"></i>
-                <span> Alat & Item</span>
+                <span> Item & Tools</span>
             </a>
         </li>
         <li>
@@ -34,7 +34,7 @@
             <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-table"></i><span>
                     Transaksi </span> <span class="float-right"><i class="mdi mdi-chevron-right"></i></span></a>
             <ul class="list-unstyled">
-                <li><a href="#">Penerimaan</a></li>
+                <li><a href="{{ route('receive.index') }}">Penerimaan</a></li>
                 <li><a href="#">Pengeluaran</a></li>
             </ul>
         </li>
