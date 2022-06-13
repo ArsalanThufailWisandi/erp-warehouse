@@ -62,7 +62,7 @@ class ItemController extends Controller
         $request->validate([
             'nama' => 'required|max:64',
             'type' => 'required|max:64',
-            'file' => 'required|max:64|image',
+            'file' => 'required|image',
             'satuan' => 'required|max:64',
             'bentuk_barang' => 'required|max:64',
             'keterangan' => 'required|max:128',

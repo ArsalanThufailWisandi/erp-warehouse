@@ -4,6 +4,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RakController;
+use App\Http\Controllers\ReceiveController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\VendorController;
 use Illuminate\Support\Facades\Route;
@@ -39,5 +40,6 @@ Route::group(
         Route::patch('/update_profile/{id}', [UsersController::class, 'update_profile'])->name('user.update_profile');
         Route::resource('item', ItemController::class);
         Route::resource('rak', RakController::class);
+        Route::resource('receive', ReceiveController::class);
     }
 );
