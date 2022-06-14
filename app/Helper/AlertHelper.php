@@ -34,12 +34,12 @@ class AlertHelper
         }
     }
 
-    public static function addPayment($info)
+    public static function addStock($info)
     {
         if ($info) {
-            Alert::success('Berhasil', 'Berhasil dibayar');
+            Alert::success('Berhasil', 'Berhasil disimpan');
         } else {
-            Alert::error('Gagal', 'Gagal dibayar');
+            Alert::error('Gagal', 'Qty melebihi penerimaan');
         }
     }
 }

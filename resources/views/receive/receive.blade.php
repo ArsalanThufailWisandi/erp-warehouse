@@ -70,22 +70,16 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group mb-0">
-                                    <div>
-                                        <button type="button" class="btn btn-success waves-effect waves-light"
-                                            data-toggle="modal" data-target="#myModal">Penempatan</button>
-                                    </div>
-                                </div>
                             </form>
-                            <hr>
+                            <br>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <table id="datatable-buttons" class="table table-striped table-bordered w-100">
+                                    <table id="" class="table table-striped table-bordered w-100">
                                         <thead>
                                             <tr>
                                                 <th>No</th>
-                                                <th>Item</th>
                                                 <th>Type</th>
+                                                <th>Item</th>
                                                 <th>Qty</th>
                                             </tr>
                                         </thead>
@@ -93,9 +87,83 @@
                                             @foreach ($details as $detail)
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
-                                                    <td>{{ $detail->items->nama }}</td>
                                                     <td>{{ $detail->type }}</td>
+                                                    <td>{{ $detail->items->nama }}</td>
                                                     <td>{{ $detail->qty }}</td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="form-group mb-0">
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div>
+                                        <button type="button" class="btn btn-info waves-effect waves-light"
+                                            data-toggle="modal" data-target="#myModal">Penempatan</button>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="col-sm-3 ml-auto">
+                                        @if (count($invens) > 0)
+                                            <form class="delete-form"
+                                                action="{{ route('receive.approve_penempatan', Crypt::encryptString($item->id)) }}"
+                                                method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="button"
+                                                    class="tabledit-delete-button btn btn-sm btn-success approve_confirm"
+                                                    style="float: none; margin: 5px;">
+                                                    <span class="ti-check"></span> Approve
+                                                    {{-- approve rubah status receive dan status inventory --}}
+                                                </button>
+                                            </form>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table id="datatable-buttons" class="table table-striped table-bordered w-100">
+                                        <thead>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Type</th>
+                                                <th>Kode Item</th>
+                                                <th>Item</th>
+                                                <th>Rak</th>
+                                                <th>Qty</th>
+                                                <th>Aksi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($invens as $inven)
+                                                <tr>
+                                                    <td>{{ $loop->iteration }}</td>
+                                                    <td>{{ $inven->items->type }}</td>
+                                                    <td>{{ $inven->kode_item }}</td>
+                                                    <td>{{ $inven->items->nama }}</td>
+                                                    <td>{{ $inven->raks->no_rak }}</td>
+                                                    <td>{{ $inven->qty }}</td>
+                                                    <td>
+                                                        <div class="tabledit-toolbar btn-toolbar" style="text-align: left;">
+                                                            <?php $id = Crypt::encryptString($inven->id); ?>
+                                                            <form class="delete-form"
+                                                                action="{{ route('inventory.destroy', $id) }}"
+                                                                method="POST">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="button"
+                                                                    class="tabledit-delete-button btn btn-sm btn-danger delete_confirm">
+                                                                    <span class="ti-trash"></span>
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                    </td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -118,12 +186,12 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title mt-0" id="myModalLabel">Tambah Item</h5>
+                    <h5 class="modal-title mt-0" id="myModalLabel">Penempatan Item</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 </div>
-                <form action="{{ route('receive_detail.store') }}" method="POST">
+                <form action="{{ route('inventory.store') }}" method="POST">
                     @csrf
-                    <input type="text" name="id_receive" id="idReceive" value="{{ $item->id }}">
+                    <input type="hidden" name="id_receive" id="idReceive" value="{{ $item->id }}">
                     <div class="modal-body">
                         <div class="form-group mb-0">
                             <label class="my-2 py-1">Type</label>
@@ -141,7 +209,7 @@
                         <div class="form-group mb-0">
                             <label class="my-2 py-1">Item</label>
                             <div>
-                                <select class="select2 form-control mb-3 custom-select item" name="item" required>
+                                <select class="select2 form-control mb-3 custom-select item" name="item" id="item" required>
                                     <option value="">--Pilih Item--</option>
                                 </select>
                             </div>
@@ -158,6 +226,11 @@
                                     @endforeach
                                 </select>
                             </div>
+                        </div>
+                        <div class="form-group mb-0">
+                            <label class="my-2 pb-1">Tgl Masuk Gudang</label>
+                            <input type="date" class="form-control" name="tgl_masuk_gudang" placeholder="Tgl Masuk Gudang"
+                                required />
                         </div>
                         <div class="form-group mb-0">
                             <label class="my-2 pb-1">Tgl Expired</label>
@@ -204,7 +277,7 @@
                         $('.item').append(`<option value="">-- Pilih Item --</option>`)
                         $.each(response, function(i, item) {
                             $('.item').append(
-                                `<option value="${item.id}">${item.nama}</option>`
+                                `<option value="${item.id +'|'+ item.id_receive_detail +'|'+ item.qty}">${item.nama}</option>`
                             )
                         })
                     },
@@ -219,6 +292,22 @@
             Swal.fire({
                 title: 'Hapus Data',
                 text: 'Ingin menghapus data?',
+                icon: 'question',
+                showCloseButton: true,
+                showCancelButton: true,
+                cancelButtonText: "Batal",
+                focusConfirm: false,
+            }).then((value) => {
+                if (value.isConfirmed) {
+                    $(this).closest("form").submit()
+                }
+            });
+        });
+        $('.approve_confirm').on('click', function(event) {
+            event.preventDefault();
+            Swal.fire({
+                title: 'Approve Data',
+                text: 'Ingin approve data?',
                 icon: 'question',
                 showCloseButton: true,
                 showCancelButton: true,

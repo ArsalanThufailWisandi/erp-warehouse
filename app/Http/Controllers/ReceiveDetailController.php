@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helper\AlertHelper;
 use App\Models\ReceiveDetailModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
@@ -53,10 +54,12 @@ class ReceiveDetailController extends Controller
             $receive->save();
             $insertedId = Crypt::encryptString($request->id_receive);
             DB::commit();
+            AlertHelper::addAlert(true);
             return redirect()->route('receive.edit', $insertedId);
         } catch (\Throwable $err) {
             DB::rollBack();
             throw $err;
+            AlertHelper::addAlert(false);
             return back();
         }
     }
@@ -108,9 +111,11 @@ class ReceiveDetailController extends Controller
             $item = ReceiveDetailModel::findOrFail(Crypt::decryptString($id));
             $item->delete();
             DB::commit();
+            AlertHelper::deleteAlert(true);
             return back();
         } catch (\Throwable $err) {
             DB::rollBack();
+            AlertHelper::deleteAlert(false);
             return back();
         }
     }

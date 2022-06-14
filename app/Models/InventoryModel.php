@@ -6,19 +6,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class ReceiveModel extends Model
+class InventoryModel extends Model
 {
     use HasFactory, SoftDeletes;
-    protected $table = 'receive';
+    protected $table = 'inventory';
     protected $guarded = [];
 
-    public function vendors()
+    public function items()
     {
-        return $this->belongsTo(SupplierModel::class, 'id_vendor');
+        return $this->belongsTo(ItemModel::class, 'id_item');
     }
 
-    public function users()
+    public function raks()
     {
-        return $this->belongsTo(User::class, 'id_user');
+        return $this->belongsTo(RakModel::class, 'id_rak');
     }
 }

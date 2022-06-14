@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    protected $title = 'dharmawidya';
+    protected $title = 'login';
     protected $menu = 'login';
 
     public function index()

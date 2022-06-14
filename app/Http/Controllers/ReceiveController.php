@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Helper\AlertHelper;
+use App\Models\InventoryModel;
 use App\Models\RakModel;
 use App\Models\ReceiveDetailModel;
 use App\Models\ReceiveModel;
-use App\Models\VendorModel;
+use App\Models\SupplierModel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\DB;
 
 class ReceiveController extends Controller
 {
-    protected $menu = 'receive';
+    protected $menu = 'penerimaan';
 
     /**
      * Display a listing of the resource.
@@ -52,7 +53,7 @@ class ReceiveController extends Controller
         $data = [
             'menu' => $this->menu,
             'title' => 'add',
-            'vendor' => VendorModel::orderBy('nama', 'ASC')->get(),
+            'vendor' => SupplierModel::orderBy('nama', 'ASC')->get(),
             'kode_receive' => $generate_registration_number,
         ];
         return view('receive.add')->with($data);
@@ -78,6 +79,7 @@ class ReceiveController extends Controller
             $receive->kode_receive = $request->kode_receive;
             $receive->tgl_receive = $request->tgl_receive;
             $receive->keterangan = $request->keterangan;
+            $receive->status = 'Proses Penerimaan';
             $receive->id_vendor = $request->id_vendor;
             $receive->id_user = Auth::user()->id;
             $receive->save();
@@ -101,7 +103,17 @@ class ReceiveController extends Controller
      */
     public function show($id)
     {
-        //
+        $data = [
+            'menu' => $this->menu,
+            'title' => 'view',
+            'vendor' => SupplierModel::orderBy('nama', 'ASC')->get(),
+            'item' => ReceiveModel::findorfail(Crypt::decryptString($id)),
+            'details' => ReceiveDetailModel::where('id_receive', Crypt::decryptString($id))->orderby('type', 'ASC')->get(),
+            'types' => ReceiveDetailModel::select('type')->where('id_receive', Crypt::decryptString($id))->groupby('type')->get(),
+            'invens' => InventoryModel::where('id_receive', Crypt::decryptString($id))->orderby('kode_item', 'DESC')->get(),
+            'raks' => RakModel::all(),
+        ];
+        return view('receive.view')->with($data);
     }
 
     /**
@@ -114,8 +126,8 @@ class ReceiveController extends Controller
     {
         $data = [
             'menu' => $this->menu,
-            'title' => 'add',
-            'vendor' => VendorModel::orderBy('nama', 'ASC')->get(),
+            'title' => 'penerimaan',
+            'vendor' => SupplierModel::orderBy('nama', 'ASC')->get(),
             'item' => ReceiveModel::findorfail(Crypt::decryptString($id)),
             'details' => ReceiveDetailModel::where('id_receive', Crypt::decryptString($id))->get(),
             'type' => ['Chemical', 'Alat'],
@@ -175,9 +187,11 @@ class ReceiveController extends Controller
             $item = ReceiveDetailModel::where('id_receive', Crypt::decryptString($id));
             $item->delete();
             DB::commit();
+            AlertHelper::deleteAlert(true);
             return back();
         } catch (\Throwable $err) {
             DB::rollBack();
+            AlertHelper::deleteAlert(false);
             return back();
         }
     }
@@ -187,11 +201,11 @@ class ReceiveController extends Controller
         DB::beginTransaction();
         try {
             $receive = ReceiveModel::findOrFail(Crypt::decryptString($id));
-            $receive->status = 'Proses Penerimaan';
+            $receive->status = 'Proses Penempatan';
             $receive->save();
             DB::commit();
             AlertHelper::addAlert(true);
-            return back();
+            return redirect('receive');
         } catch (\Throwable $err) {
             DB::rollBack();
             throw $err;
@@ -200,17 +214,40 @@ class ReceiveController extends Controller
         }
     }
 
-    public function inventory($id)
+    public function penempatan($id)
     {
         $data = [
             'menu' => $this->menu,
-            'title' => 'add',
-            'vendor' => VendorModel::orderBy('nama', 'ASC')->get(),
+            'title' => 'penempatan',
+            'vendor' => SupplierModel::orderBy('nama', 'ASC')->get(),
             'item' => ReceiveModel::findorfail(Crypt::decryptString($id)),
-            'details' => ReceiveDetailModel::where('id_receive', Crypt::decryptString($id))->get(),
+            'details' => ReceiveDetailModel::where('id_receive', Crypt::decryptString($id))->orderby('type', 'ASC')->get(),
             'types' => ReceiveDetailModel::select('type')->where('id_receive', Crypt::decryptString($id))->groupby('type')->get(),
+            'invens' => InventoryModel::where('id_receive', Crypt::decryptString($id))->orderby('kode_item', 'DESC')->get(),
             'raks' => RakModel::all(),
         ];
         return view('receive.receive')->with($data);
+    }
+
+    public function approve_penempatan($id)
+    {
+        DB::beginTransaction();
+        try {
+            // update status receive
+            $receive = ReceiveModel::findOrFail(Crypt::decryptString($id));
+            $receive->status = 'Selesai Penerimaan';
+            $receive->save();
+            // update status IN
+            InventoryModel::where('id_receive', Crypt::decryptString($id))->update(['status' => 'IN']);
+
+            DB::commit();
+            AlertHelper::addAlert(true);
+            return redirect('receive');
+        } catch (\Throwable $err) {
+            DB::rollBack();
+            throw $err;
+            AlertHelper::addAlert(false);
+            return back();
+        }
     }
 }

@@ -19,7 +19,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <form action="{{ route('vendor.update', Crypt::encryptString($item->id)) }}" method="POST">
+                            <form action="{{ route('supplier.update', Crypt::encryptString($item->id)) }}" method="POST">
                                 @csrf
                                 @method('PATCH')
                                 <div class="form-group mb-0">
@@ -60,7 +60,7 @@
                                 <div class="form-group mb-0">
                                     <div>
                                         <a class="btn btn-secondary waves-effect m-l-5"
-                                            href="{{ route('vendor.index') }}">Kembali</a>
+                                            href="{{ route('supplier.index') }}">Kembali</a>
                                         <button type="submit" class="btn btn-primary waves-effect waves-light">
                                             Simpan
                                         </button>

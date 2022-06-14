@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Helper\AlertHelper;
-use App\Models\VendorModel;
+use App\Models\SupplierModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 
-class VendorController extends Controller
+class SupplierController extends Controller
 {
     protected $menu = 'vendor';
 
@@ -20,13 +20,13 @@ class VendorController extends Controller
      */
     public function index()
     {
-        $vendor = VendorModel::orderBy('id', 'DESC')->get();
+        $vendor = SupplierModel::orderBy('id', 'DESC')->get();
         $data = [
             'menu' => $this->menu,
             'title' => 'list',
             'list' => $vendor
         ];
-        return view('vendor.list')->with($data);
+        return view('supplier.list')->with($data);
     }
 
     /**
@@ -40,7 +40,7 @@ class VendorController extends Controller
             'menu' => $this->menu,
             'title' => 'add',
         ];
-        return view('vendor.add')->with($data);
+        return view('supplier.add')->with($data);
     }
 
     /**
@@ -60,7 +60,7 @@ class VendorController extends Controller
         ]);
         DB::beginTransaction();
         try {
-            VendorModel::create([
+            SupplierModel::create([
                 'nama' => $validated['nama'],
                 'pic' => $validated['pic'],
                 'email' => $validated['email'],
@@ -70,7 +70,7 @@ class VendorController extends Controller
             ]);
             DB::commit();
             AlertHelper::addAlert(true);
-            return redirect('vendor');
+            return redirect('supplier');
         } catch (\Throwable $err) {
             DB::rollBack();
             throw $err;
@@ -90,9 +90,9 @@ class VendorController extends Controller
         $data = [
             'menu' => $this->menu,
             'title' => 'view',
-            'item' => VendorModel::findorfail(Crypt::decryptString($id))
+            'item' => SupplierModel::findorfail(Crypt::decryptString($id))
         ];
-        return view('vendor.view')->with($data);
+        return view('supplier.view')->with($data);
     }
 
     /**
@@ -106,9 +106,9 @@ class VendorController extends Controller
         $data = [
             'menu' => $this->menu,
             'title' => 'edit',
-            'item' => VendorModel::findorfail(Crypt::decryptString($id))
+            'item' => SupplierModel::findorfail(Crypt::decryptString($id))
         ];
-        return view('vendor.edit')->with($data);
+        return view('supplier.edit')->with($data);
     }
 
     /**
@@ -131,7 +131,7 @@ class VendorController extends Controller
 
         DB::beginTransaction();
         try {
-            $vendor = VendorModel::findOrFail($decrypted_id);
+            $vendor = SupplierModel::findOrFail($decrypted_id);
             $vendor->nama = $validated['nama'];
             $vendor->pic = $validated['pic'];
             $vendor->email = $validated['email'];
@@ -140,7 +140,7 @@ class VendorController extends Controller
             $vendor->save();
             DB::commit();
             AlertHelper::updateAlert(true);
-            return redirect('vendor');
+            return redirect('supplier');
         } catch (\Throwable $err) {
             DB::rollBack();
             AlertHelper::updateAlert(false);
@@ -158,7 +158,7 @@ class VendorController extends Controller
     {
         DB::beginTransaction();
         try {
-            $vendor = VendorModel::findOrFail(Crypt::decryptString($id));
+            $vendor = SupplierModel::findOrFail(Crypt::decryptString($id));
             $vendor->delete();
             DB::commit();
             AlertHelper::deleteAlert(true);

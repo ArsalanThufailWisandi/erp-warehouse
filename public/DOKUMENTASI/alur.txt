@@ -1,5 +1,5 @@
 #rak
--view menampilkan data keseluruhan berdasarkan stock obat dan item
+-view menampilkan data keseluruhan berdasarkan stock obat dan item dari inventory status IN
 #input penerimaan barang
 - input penerimaan barang header & detail barang [purchasing]
 - penempatan item obat dan alat ke lokasi rak [admin gudang]

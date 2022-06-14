@@ -35,6 +35,8 @@
     <link href="{{ URL::asset('assets/plugins/bootstrap-touchspin/css/jquery.bootstrap-touchspin.min.css') }}"
         rel="stylesheet" />
     <link href="{{ URL::asset('assets/css/form.css') }}" rel="stylesheet" type="text/css">
+    {{-- helper harus ada script alert.js dan include('sweetalert::alert') --}}
+    <script src="{{ asset('assets/alert.js') }}"></script>
 </head>
 
 <body class="fixed-left">

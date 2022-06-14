@@ -19,7 +19,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <form action="{{ route('vendor.store') }}" method="POST">
+                            <form action="{{ route('supplier.store') }}" method="POST">
                                 @csrf
                                 <div class="form-group mb-0">
                                     <label class="my-2 pb-1">Nama Vendor</label>
@@ -56,18 +56,10 @@
                                         {!! $errors->first('alamat', '<div class="invalid-validasi">:message</div>') !!}
                                     </div>
                                 </div>
-                                {{-- <div class="form-group mb-0">
-                                    <label class="my-2 py-1">Equal To</label>
-                                    <select class="select2 form-control mb-3 custom-select" required>
-                                        <option value="">--Pilih Jenis--</option>
-                                        <option value="AK">Alaska</option>
-                                        <option value="HI">Hawaii</option>
-                                    </select>
-                                </div> --}}
                                 <div class="form-group mb-0">
                                     <div>
                                         <a class="btn btn-secondary waves-effect m-l-5"
-                                            href="{{ route('vendor.index') }}">Kembali</a>
+                                            href="{{ route('supplier.index') }}">Kembali</a>
                                         <button type="submit" class="btn btn-primary waves-effect waves-light">
                                             Simpan
                                         </button>

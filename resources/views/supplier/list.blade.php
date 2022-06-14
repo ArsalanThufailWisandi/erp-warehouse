@@ -20,7 +20,7 @@
                     <div class="card">
                         <div class="card-body">
                             <p class="text-muted mb-4 font-14">
-                                <a class="btn btn-success" href="{{ route('vendor.create') }}">Tambah</a>
+                                <a class="btn btn-success" href="{{ route('supplier.create') }}">Tambah</a>
                             </p>
                             <table id="datatable-buttons" class="table table-striped table-bordered w-100">
                                 <thead>
@@ -48,7 +48,7 @@
                                                     <div class="btn-group btn-group-sm" style="float: none;">
                                                         <?php $id = Crypt::encryptString($item->id); ?>
                                                         <form class="delete-form"
-                                                            action="{{ route('vendor.destroy', $id) }}" method="POST">
+                                                            action="{{ route('supplier.destroy', $id) }}" method="POST">
                                                             @csrf
                                                             @method('DELETE')
                                                             <button type="button"
@@ -56,12 +56,12 @@
                                                                 style="float: none; margin: 5px;">
                                                                 <span class="ti-trash"></span>
                                                             </button>
-                                                            <a href="{{ route('vendor.show', $id) }}"
+                                                            <a href="{{ route('supplier.show', $id) }}"
                                                                 class="tabledit-edit-button btn btn-sm btn-primary"
                                                                 style="float: none; margin: 5px;">
                                                                 <span class="ti-eye"></span>
                                                             </a>
-                                                            <a href="{{ route('vendor.edit', $id) }}"
+                                                            <a href="{{ route('supplier.edit', $id) }}"
                                                                 class="tabledit-edit-button btn btn-sm btn-info"
                                                                 style="float: none; margin: 5px;">
                                                                 <span class="ti-pencil"></span>

@@ -69,69 +69,88 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="form-group mb-0">
-                                    <div>
-                                        <button type="submit" class="btn btn-primary waves-effect waves-light">
-                                            Simpan
-                                        </button>
-                                        <button type="button" class="btn btn-success waves-effect waves-light"
-                                            data-toggle="modal" data-target="#myModal">Tambah</button>
+                                </div><br>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <button type="submit" class="btn btn-primary waves-effect waves-light">
+                                                Simpan
+                                            </button>
+                                            <button type="button" class="btn btn-info waves-effect waves-light"
+                                                data-toggle="modal" data-target="#myModal">Tambah</button>
+                                        </div>
                                     </div>
-                                </div>
                             </form>
-                            <hr>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <table id="datatable-buttons" class="table table-striped table-bordered w-100">
-                                        <thead>
-                                            <tr>
-                                                <th>No</th>
-                                                <th>Item</th>
-                                                <th>Type</th>
-                                                <th>Qty</th>
-                                                <th>Aksi</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($details as $item)
-                                                <tr>
-                                                    <td>{{ $loop->iteration }}</td>
-                                                    <td>{{ $item->items->nama }}</td>
-                                                    <td>{{ $item->type }}</td>
-                                                    <td>{{ $item->qty }}</td>
-                                                    <td>
-                                                        <div class="tabledit-toolbar btn-toolbar" style="text-align: left;">
-                                                            <?php $id = Crypt::encryptString($item->id); ?>
-                                                            <form class="delete-form"
-                                                                action="{{ route('receive_detail.destroy', $id) }}"
-                                                                method="POST">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <button type="button"
-                                                                    class="tabledit-delete-button btn btn-sm btn-danger delete_confirm">
-                                                                    <span class="ti-trash"></span>
-                                                                </button>
-                                                            </form>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
+                            <div class="col-sm-6">
+                                <div class="col-sm-3 ml-auto">
+                                    <form class="delete-form"
+                                        action="{{ route('receive.approve_purchasing', Crypt::encryptString($item->id)) }}"
+                                        method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        @if (count($details) > 0)
+                                            <button type="button"
+                                                class="tabledit-delete-button btn btn-sm btn-success approve_confirm"
+                                                style="float: none; margin: 5px;">
+                                                <span class="ti-check"></span> Approve
+                                            </button>
+                                        @endif
+                                    </form>
                                 </div>
                             </div>
-                            <div class="form-group mb-0">
-                                <div>
-                                    <a class="btn btn-secondary waves-effect m-l-5"
-                                        href="{{ route('receive.index') }}">Kembali</a>
-                                </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table id="datatable-buttons" class="table table-striped table-bordered w-100">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Item</th>
+                                            <th>Type</th>
+                                            <th>Qty</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($details as $item)
+                                            <tr>
+                                                <td>{{ $loop->iteration }}</td>
+                                                <td>{{ $item->items->nama }}</td>
+                                                <td>{{ $item->type }}</td>
+                                                <td>{{ $item->qty }}</td>
+                                                <td>
+                                                    <div class="tabledit-toolbar btn-toolbar" style="text-align: left;">
+                                                        <?php $id = Crypt::encryptString($item->id); ?>
+                                                        <form class="delete-form"
+                                                            action="{{ route('receive_detail.destroy', $id) }}"
+                                                            method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="button"
+                                                                class="tabledit-delete-button btn btn-sm btn-danger delete_confirm">
+                                                                <span class="ti-trash"></span>
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="form-group mb-0">
+                            <div>
+                                <a class="btn btn-secondary waves-effect m-l-5"
+                                    href="{{ route('receive.index') }}">Kembali</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     </div>
     <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -218,6 +237,22 @@
             Swal.fire({
                 title: 'Hapus Data',
                 text: 'Ingin menghapus data?',
+                icon: 'question',
+                showCloseButton: true,
+                showCancelButton: true,
+                cancelButtonText: "Batal",
+                focusConfirm: false,
+            }).then((value) => {
+                if (value.isConfirmed) {
+                    $(this).closest("form").submit()
+                }
+            });
+        });
+        $('.approve_confirm').on('click', function(event) {
+            event.preventDefault();
+            Swal.fire({
+                title: 'Approve Data',
+                text: 'Ingin approve data?',
                 icon: 'question',
                 showCloseButton: true,
                 showCancelButton: true,

@@ -26,10 +26,10 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Gambar</th>
+                                        <th class="text-center">Gambar</th>
                                         <th>Nama</th>
                                         <th>Type</th>
-                                        <th>Qty</th>
+                                        <th class="text-center">Qty</th>
                                         <th>Keterangan</th>
                                         <th>Aksi</th>
                                     </tr>
@@ -43,7 +43,19 @@
                                                     style="width: 150px;height:150px;" class="rounded-circle"></td>
                                             <td>{{ $item->nama }}</td>
                                             <td>{{ $item->type }}</td>
-                                            <td>{{ $item->qty }}</td>
+                                            <td class="text-center">
+                                                <?php
+                                                $stock = DB::table('inventory')
+                                                    ->selectRaw('sum(inventory.qty) as qty')
+                                                    ->join('item', 'item.id', '=', 'inventory.id_item')
+                                                    ->wherenull('inventory.deleted_at')
+                                                    ->where('item.id', '=', $item->id)
+                                                    ->where('inventory.status', '=', 'IN')
+                                                    ->groupBy('item.id')
+                                                    ->get();
+                                                ?>
+                                                {{ $stock[0]->qty }}
+                                            </td>
                                             <td>{{ $item->keterangan }}</td>
                                             <td>
                                                 <div class="tabledit-toolbar btn-toolbar" style="text-align: left;">

@@ -47,10 +47,12 @@
                                             <td>{{ $item->vendors->nama }}</td>
                                             <td>{{ $item->users->name }}</td>
                                             <td>
-                                                @if ($item->status == 'Aktif')
+                                                @if ($item->status == 'Selesai Penerimaan')
                                                     <span class="badge badge-success">{{ $item->status }}</span>
-                                                @else
+                                                @elseif($item->status == 'Proses Penerimaan')
                                                     <span class="badge badge-warning">{{ $item->status }}</span>
+                                                @elseif($item->status == 'Proses Penempatan')
+                                                    <span class="badge badge-info">{{ $item->status }}</span>
                                                 @endif
                                             </td>
                                             <td>
@@ -61,37 +63,30 @@
                                                             action="{{ route('receive.destroy', $id) }}" method="POST">
                                                             @csrf
                                                             @method('DELETE')
-                                                            {{-- <a href="{{ route('receive.show', $id) }}"
+                                                            <a href="{{ route('receive.show', $id) }}"
                                                                 class="tabledit-edit-button btn btn-sm btn-primary"
                                                                 style="float: none; margin: 5px;">
                                                                 <span class="ti-eye"></span>
-                                                            </a> --}}
-                                                            <button type="button"
-                                                                class="tabledit-delete-button btn btn-sm btn-danger delete_confirm"
-                                                                style="float: none; margin: 5px;">
-                                                                <span class="ti-trash"></span>
-                                                            </button>
-                                                            <a href="{{ route('receive.edit', $id) }}"
-                                                                class="tabledit-edit-button btn btn-sm btn-info"
-                                                                style="float: none; margin: 5px;">
-                                                                <span class="ti-pencil"></span>
                                                             </a>
-                                                        </form>
-                                                        <form class="delete-form"
-                                                            action="{{ route('receive.approve_purchasing', $id) }}"
-                                                            method="POST">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="button"
-                                                                class="tabledit-delete-button btn btn-sm btn-success approve_confirm"
-                                                                style="float: none; margin: 5px;">
-                                                                <span class="ti-check"></span>
-                                                            </button>
-                                                            <a href="{{ route('receive.inventory', $id) }}"
-                                                                class="tabledit-edit-button btn btn-sm btn-info"
-                                                                style="float: none; margin: 5px;">
-                                                                <span class="ti-pencil"></span>
-                                                            </a>
+                                                            @if ($item->status == 'Proses Penerimaan')
+                                                                <button type="button"
+                                                                    class="tabledit-delete-button btn btn-sm btn-danger delete_confirm"
+                                                                    style="float: none; margin: 5px;">
+                                                                    <span class="ti-trash"></span>
+                                                                </button>
+                                                                <a href="{{ route('receive.edit', $id) }}"
+                                                                    class="tabledit-edit-button btn btn-sm btn-info"
+                                                                    style="float: none; margin: 5px;">
+                                                                    <span class="ti-pencil"></span>
+                                                                </a>
+                                                            @endif
+                                                            @if ($item->status == 'Proses Penempatan')
+                                                                <a href="{{ route('receive.penempatan', $id) }}"
+                                                                    class="tabledit-edit-button btn btn-sm btn-secondary"
+                                                                    style="float: none; margin: 5px;">
+                                                                    <span class="ti-package"></span>
+                                                                </a>
+                                                            @endif
                                                         </form>
                                                     </div>
                                                 </div>
@@ -114,22 +109,6 @@
             Swal.fire({
                 title: 'Hapus Data',
                 text: 'Ingin menghapus data?',
-                icon: 'question',
-                showCloseButton: true,
-                showCancelButton: true,
-                cancelButtonText: "Batal",
-                focusConfirm: false,
-            }).then((value) => {
-                if (value.isConfirmed) {
-                    $(this).closest("form").submit()
-                }
-            });
-        });
-        $('.approve_confirm').on('click', function(event) {
-            event.preventDefault();
-            Swal.fire({
-                title: 'Approve Data',
-                text: 'Ingin approve data?',
                 icon: 'question',
                 showCloseButton: true,
                 showCancelButton: true,

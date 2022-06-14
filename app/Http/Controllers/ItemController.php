@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helper\AlertHelper;
 use App\Models\ItemModel;
-use App\Models\ReceiveDetailModel;
-use App\Models\VendorModel;
+use App\Models\SupplierModel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -44,7 +43,7 @@ class ItemController extends Controller
         $data = [
             'menu' => $this->menu,
             'title' => 'add',
-            'vendor' => VendorModel::orderBy('nama', 'ASC')->get(),
+            'vendor' => SupplierModel::orderBy('nama', 'ASC')->get(),
             'type' => ['Chemical', 'Alat'],
             'satuan' => ['Pasang', 'Unit', 'Pcs', 'Stell', 'Liter', 'Tube', 'Gram', 'KG'],
             'bentuk' => ['Cair', 'Padat', 'Padat Pasir', 'Padat Bubuk'],
@@ -110,7 +109,7 @@ class ItemController extends Controller
             'menu' => $this->menu,
             'title' => 'view',
             'item' => ItemModel::findorfail(Crypt::decryptString($id)),
-            'vendor' => VendorModel::orderBy('nama', 'ASC')->get(),
+            'vendor' => SupplierModel::orderBy('nama', 'ASC')->get(),
             'type' => ['Chemical', 'Alat'],
             'satuan' => ['Pasang', 'Unit', 'Pcs', 'Stell', 'Liter', 'Tube', 'Gram', 'KG'],
             'bentuk' => ['Cair', 'Padat', 'Padat Pasir', 'Padat Bubuk'],
@@ -130,7 +129,7 @@ class ItemController extends Controller
             'menu' => $this->menu,
             'title' => 'edit',
             'item' => ItemModel::findorfail(Crypt::decryptString($id)),
-            'vendor' => VendorModel::orderBy('nama', 'ASC')->get(),
+            'vendor' => SupplierModel::orderBy('nama', 'ASC')->get(),
             'type' => ['Chemical', 'Alat'],
             'satuan' => ['Pasang', 'Unit', 'Pcs', 'Stell', 'Liter', 'Tube', 'Gram', 'KG'],
             'bentuk' => ['Cair', 'Padat', 'Padat Pasir', 'Padat Bubuk'],
@@ -214,9 +213,9 @@ class ItemController extends Controller
 
     public function dropdown_receive(Request $request)
     {
-        // TODO :: query builder
         $item = DB::table('receive')
-            ->select('item.*', 'receive_detail.id as id_receive_detail', 'receive_detail.id_receive')
+            ->select('item.*', 'receive_detail.id as id_receive_detail')
+            ->selectRaw('sum(receive_detail.qty) as qty')
             ->join('receive_detail', 'receive_detail.id_receive', '=', 'receive.id')
             ->join('item', 'item.id', '=', 'receive_detail.id_item')
             ->where('receive.id', '=', $request->idReceive)
