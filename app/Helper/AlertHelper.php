@@ -39,7 +39,7 @@ class AlertHelper
         if ($info) {
             Alert::success('Berhasil', 'Berhasil disimpan');
         } else {
-            Alert::error('Gagal', 'Qty melebihi penerimaan');
+            Alert::error('Gagal', 'Qty berlebihan');
         }
     }
 }

@@ -4,6 +4,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\PengeluaranController;
+use App\Http\Controllers\PengeluaranDetailController;
 use App\Http\Controllers\RakController;
 use App\Http\Controllers\ReceiveController;
 use App\Http\Controllers\ReceiveDetailController;
@@ -43,8 +45,12 @@ Route::group(
         Route::get('/profile/{id}', [UsersController::class, 'profile'])->name('user.profile');
         Route::patch('/update_profile/{id}', [UsersController::class, 'update_profile'])->name('user.update_profile');
         Route::resource('item', ItemController::class);
+        Route::get('/stock/{id}', [ItemController::class, 'stock'])->name('item.stock');
         Route::post('/dropdown', [ItemController::class, 'dropdown'])->name('item.dropdown');
+        Route::post('/dropdown_pengeluaran', [ItemController::class, 'dropdown_pengeluaran'])->name('item.dropdown_pengeluaran');
+        Route::post('/dropdown_rak', [ItemController::class, 'dropdown_rak'])->name('item.dropdown_rak');
         Route::resource('rak', RakController::class);
+        Route::get('/stock_rak/{id}', [RakController::class, 'stock_rak'])->name('rak.stock_rak');
         Route::resource('receive', ReceiveController::class);
         Route::delete('/approve_purchasing/{id}', [ReceiveController::class, 'approve_purchasing'])->name('receive.approve_purchasing');
         Route::delete('/approve_penempatan/{id}', [ReceiveController::class, 'approve_penempatan'])->name('receive.approve_penempatan');
@@ -52,5 +58,8 @@ Route::group(
         Route::post('/dropdown_receive', [ItemController::class, 'dropdown_receive'])->name('item.dropdown_receive');
         Route::resource('receive_detail', ReceiveDetailController::class);
         Route::resource('inventory', InventoryController::class);
+        Route::resource('pengeluaran', PengeluaranController::class);
+        Route::delete('/approve_pengeluaran/{id}', [PengeluaranController::class, 'approve_pengeluaran'])->name('pengeluaran.approve_pengeluaran');
+        Route::resource('pengeluaran_detail', PengeluaranDetailController::class);
     }
 );

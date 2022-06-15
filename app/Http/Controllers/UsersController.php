@@ -125,7 +125,7 @@ class UsersController extends Controller
             $user = User::findOrFail($decrypted_id);
             $user->name = $validated['name'];
             $user->email = $validated['email'];
-            if ($request->password_old) {
+            if ($request->password_old != $request->password) {
                 $user->password = bcrypt($validated['password']);
             }
             $user->roles = $validated['roles'];

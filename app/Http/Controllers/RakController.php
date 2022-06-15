@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helper\AlertHelper;
+use App\Models\InventoryModel;
 use App\Models\RakModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
@@ -153,5 +154,16 @@ class RakController extends Controller
             AlertHelper::deleteAlert(false);
             return back();
         }
+    }
+
+    public function stock_rak($id)
+    {
+        $item = InventoryModel::where('id_rak', Crypt::decryptString($id))->where('status', 'IN')->orderBy('id', 'ASC')->get();
+        $data = [
+            'menu' => $this->menu,
+            'title' => 'stock',
+            'list' => $item,
+        ];
+        return view('item.stock')->with($data);
     }
 }

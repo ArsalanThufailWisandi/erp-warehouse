@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helper\AlertHelper;
 use App\Models\InventoryModel;
+use App\Models\ItemModel;
 use App\Models\RakModel;
 use App\Models\ReceiveDetailModel;
 use App\Models\ReceiveModel;
@@ -239,7 +240,12 @@ class ReceiveController extends Controller
             $receive->save();
             // update status IN
             InventoryModel::where('id_receive', Crypt::decryptString($id))->update(['status' => 'IN']);
-
+            // cek stock
+            $stock = InventoryModel::where('id_receive', Crypt::decryptString($id))->groupby('id_item')->get();
+            for ($i = 0; $i < count($stock); $i++) {
+                $hasil_qty = InventoryModel::where('id_item', $stock[$i]->id_item)->where('status', 'IN')->sum('qty');
+                ItemModel::where('id', $stock[$i]->id_item)->update(['qty' => $hasil_qty]);
+            }
             DB::commit();
             AlertHelper::addAlert(true);
             return redirect('receive');

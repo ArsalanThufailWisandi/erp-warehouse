@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helper\AlertHelper;
+use App\Models\InventoryModel;
 use App\Models\ItemModel;
 use App\Models\SupplierModel;
 use Carbon\Carbon;
@@ -211,6 +212,12 @@ class ItemController extends Controller
         return $item;
     }
 
+    public function dropdown_pengeluaran(Request $request)
+    {
+        $item = ItemModel::select('id', 'nama', 'qty')->where('type', $request->type)->where('qty', '>', 0)->get();
+        return $item;
+    }
+
     public function dropdown_receive(Request $request)
     {
         $item = DB::table('receive')
@@ -224,5 +231,32 @@ class ItemController extends Controller
             ->orderBy('item.nama', 'ASC')
             ->get();
         return $item;
+    }
+
+    public function dropdown_rak(Request $request)
+    {
+        $item = DB::table('inventory')
+            ->select('rak.*', 'inventory.id as id_inventory')
+            ->selectRaw('sum(inventory.qty) as qty')
+            ->join('rak', 'rak.id', '=', 'inventory.id_rak')
+            ->wherenull('inventory.deleted_at')
+            ->where('inventory.id_item', '=', $request->item)
+            ->where('inventory.status', '=', 'IN')
+            ->groupBy('inventory.id_rak')
+            ->groupBy('inventory.id_item')
+            ->orderBy('rak.id', 'ASC')
+            ->get();
+        return $item;
+    }
+
+    public function stock($id)
+    {
+        $item = InventoryModel::where('id_item', Crypt::decryptString($id))->where('status', 'IN')->orderBy('id', 'ASC')->get();
+        $data = [
+            'menu' => $this->menu,
+            'title' => 'stock',
+            'list' => $item,
+        ];
+        return view('item.stock')->with($data);
     }
 }

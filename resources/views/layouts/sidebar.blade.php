@@ -35,14 +35,16 @@
                 <span> Rak</span>
             </a>
         </li>
-        <li class="has_sub">
+        <li class="has_sub {{ Request::segment(1) == 'receive' ? 'nav-active' : '' }}">
             <a href="javascript:void(0);" class="waves-effect">
                 <i class="mdi mdi-table"></i><span>Transaksi </span>
                 <span class="float-right"><i class="mdi mdi-chevron-right"></i></span>
             </a>
             <ul class="list-unstyled">
-                <li class="active"><a href="{{ route('receive.index') }}">Penerimaan</a></li>
-                <li><a href="#">Pengeluaran</a></li>
+                <li class="{{ Request::segment(1) == 'receive' ? 'active' : '' }}"><a
+                        href="{{ route('receive.index') }}">Penerimaan</a></li>
+                <li class="{{ Request::segment(1) == 'pengeluaran' ? 'active' : '' }}"><a
+                        href="{{ route('pengeluaran.index') }}">Pengeluaran</a></li>
             </ul>
         </li>
         <li class="has_sub">

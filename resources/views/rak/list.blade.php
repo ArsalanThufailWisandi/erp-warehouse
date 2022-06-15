@@ -60,6 +60,11 @@
                                                                 style="float: none; margin: 5px;">
                                                                 <span class="ti-pencil"></span>
                                                             </a>
+                                                            <a href="{{ route('rak.stock_rak', $id) }}"
+                                                                class="tabledit-edit-button btn btn-sm btn-success"
+                                                                style="float: none; margin: 5px;">
+                                                                <span class="ti-dropbox"></span>
+                                                            </a>
                                                         </form>
                                                     </div>
                                                 </div>

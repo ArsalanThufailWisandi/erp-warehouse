@@ -19,44 +19,27 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <form action="{{ route('receive.store') }}" method="POST">
+                            <form action="{{ route('pengeluaran.store') }}" method="POST">
                                 @csrf
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group mb-0">
-                                            <label class="my-2 pb-1">Kode Receive</label>
-                                            <input type="text" class="form-control" name="kode_receive" readonly
-                                                value="{{ $kode_receive }}" placeholder="Kode Receive" />
-                                            {!! $errors->first('kode_receive', '<div class="invalid-validasi">:message</div>') !!}
+                                            <label class="my-2 pb-1">Kode Pengeluaran</label>
+                                            <input type="text" class="form-control" name="kode_pengeluaran" readonly
+                                                value="{{ $kode_pengeluaran }}" placeholder="Kode Pengeluaran" />
+                                            {!! $errors->first('kode_pengeluaran', '<div class="invalid-validasi">:message</div>') !!}
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group mb-0">
-                                            <label class="my-2 pb-1">Tgl Receive</label>
-                                            <input type="date" class="form-control" name="tgl_receive" required
-                                                value="{{ old('tgl_receive') }}" placeholder="Tgl Receive" />
-                                            {!! $errors->first('tgl_receive', '<div class="invalid-validasi">:message</div>') !!}
+                                            <label class="my-2 pb-1">Tgl Pengeluaran</label>
+                                            <input type="date" class="form-control" name="tgl_pengeluaran" required
+                                                value="{{ old('tgl_pengeluaran') }}" placeholder="Tgl Pengeluaran" />
+                                            {!! $errors->first('tgl_pengeluaran', '<div class="invalid-validasi">:message</div>') !!}
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group mb-0">
-                                            <label class="my-2 py-1">Vendor</label>
-                                            <div>
-                                                <select class="select2 form-control mb-3 custom-select" name="id_vendor"
-                                                    required>
-                                                    <option value="">--Pilih Vendor--</option>
-                                                    @foreach ($vendor as $item)
-                                                        <option value="{{ $item->id }}">
-                                                            {{ $item->nama }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            {!! $errors->first('id_vendor', '<div class="invalid-validasi">:message</div>') !!}
-                                        </div>
-                                    </div>
                                     <div class="col-md-6">
                                         <div class="form-group mb-0">
                                             <label class="my-2 py-1">Keterangan</label>
@@ -66,6 +49,8 @@
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="my-2 pb-1">
                                 </div>
                                 <div class="form-group mb-0">
                                     <div>
