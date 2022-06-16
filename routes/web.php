@@ -60,6 +60,8 @@ Route::group(
         Route::resource('inventory', InventoryController::class);
         Route::resource('pengeluaran', PengeluaranController::class);
         Route::delete('/approve_pengeluaran/{id}', [PengeluaranController::class, 'approve_pengeluaran'])->name('pengeluaran.approve_pengeluaran');
+        Route::get('/acceptance/{id}', [PengeluaranController::class, 'acceptance'])->name('pengeluaran.acceptance');
+        Route::patch('/approve_pengembalian/{id}', [PengeluaranController::class, 'approve_pengembalian'])->name('pengeluaran.approve_pengembalian');
         Route::resource('pengeluaran_detail', PengeluaranDetailController::class);
     }
 );

@@ -223,4 +223,42 @@ class PengeluaranController extends Controller
             return back();
         }
     }
+
+    public function acceptance($id)
+    {
+        $data = [
+            'menu' => $this->menu,
+            'title' => 'penerimaan',
+            'item' => ItemModel::all(),
+            'header' => PengeluaranModel::findorfail(Crypt::decryptString($id)),
+            'details' => PengeluaranDetailModel::where('id_pengeluaran', Crypt::decryptString($id))->orderby('type_out', 'ASC')->get(),
+            'type' => ['Chemical', 'Alat'],
+        ];
+        return view('pengeluaran.penerimaan')->with($data);
+    }
+
+    public function approve_pengembalian(Request $request, $id)
+    {
+        DB::beginTransaction();
+        try {
+            // update status receive
+            $pengeluaran = PengeluaranModel::findOrFail($request->id_pengeluaran);
+            $pengeluaran->status = 'Selesai Permintaan';
+            $pengeluaran->save();
+            // menampilkan detail pengeluaran
+            $detail = PengeluaranDetailModel::where('id_pengeluaran', $request->id_pengeluaran)->where('status_out', 'IN')->get();
+            for ($i = 0; $i < count($detail); $i++) {
+                // update inventory status jadi IN
+                InventoryModel::where('id', $detail[0]->id_inventory)->update(['status' => 'IN']);
+            }
+            DB::commit();
+            AlertHelper::addAlert(true);
+            return redirect('pengeluaran');
+        } catch (\Throwable $err) {
+            DB::rollBack();
+            throw $err;
+            AlertHelper::addAlert(false);
+            return back();
+        }
+    }
 }

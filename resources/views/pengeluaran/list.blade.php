@@ -52,7 +52,6 @@
                                                 @elseif($item->status == 'Pengiriman Permintaan')
                                                     <span class="badge badge-info">{{ $item->status }}</span>
                                                 @endif
-
                                             </td>
                                             <td>
                                                 <div class="tabledit-toolbar btn-toolbar" style="text-align: left;">
@@ -81,7 +80,7 @@
                                                                 </a>
                                                             @endif
                                                             @if ($item->status == 'Pengiriman Permintaan')
-                                                                <a href="{{ route('receive.penempatan', $id) }}"
+                                                                <a href="{{ route('pengeluaran.acceptance', $id) }}"
                                                                     class="tabledit-edit-button btn btn-sm btn-secondary"
                                                                     style="float: none; margin: 5px;">
                                                                     <span class="ti-package"></span>

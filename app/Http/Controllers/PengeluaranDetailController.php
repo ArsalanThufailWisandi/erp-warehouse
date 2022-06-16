@@ -109,7 +109,19 @@ class PengeluaranDetailController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        DB::beginTransaction();
+        try {
+            $item = PengeluaranDetailModel::findOrFail(Crypt::decryptString($id));
+            $item->status_out = 'IN';
+            $item->save();
+            DB::commit();
+            AlertHelper::updateAlert(true);
+            return back();
+        } catch (\Throwable $err) {
+            DB::rollBack();
+            AlertHelper::updateAlert(false);
+            return back();
+        }
     }
 
     /**

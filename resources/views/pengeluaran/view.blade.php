@@ -61,18 +61,30 @@
                                         <thead>
                                             <tr>
                                                 <th>No</th>
+                                                <th>Kode Item</th>
                                                 <th>Item</th>
                                                 <th>Type</th>
                                                 <th>Qty</th>
+                                                <th>Status</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach ($details as $item)
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
+                                                    <td>{{ $item->inventorys->kode_item }}</td>
                                                     <td>{{ $item->inventorys->items->nama }}</td>
                                                     <td>{{ $item->inventorys->items->type }}</td>
                                                     <td>{{ $item->inventorys->qty }}</td>
+                                                    <td>
+                                                        @if ($item->status_out == 'IN')
+                                                            <span
+                                                                class="badge badge-success">{{ $item->status_out }}</span>
+                                                        @elseif($item->status_out == 'OUT')
+                                                            <span
+                                                                class="badge badge-warning">{{ $item->status_out }}</span>
+                                                        @endif
+                                                    </td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
