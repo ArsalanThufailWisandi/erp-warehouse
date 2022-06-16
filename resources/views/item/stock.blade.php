@@ -45,6 +45,7 @@
                                         <th>Type</th>
                                         <th>Tgl Masuk Gudang</th>
                                         <th>Tgl Expired</th>
+                                        <th>Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -56,6 +57,13 @@
                                             <td>{{ $item->items->type }}</td>
                                             <td>{{ $item->tgl_masuk_gudang }}</td>
                                             <td>{{ $item->tgl_expired }}</td>
+                                            <td>
+                                                @if ($item->status == 'IN')
+                                                    <span class="badge badge-success">{{ $item->status }}</span>
+                                                @elseif($item->status == 'OUT')
+                                                    <span class="badge badge-warning">{{ $item->status }}</span>
+                                                @endif
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>

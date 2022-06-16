@@ -251,7 +251,7 @@ class ItemController extends Controller
 
     public function stock($id)
     {
-        $item = InventoryModel::where('id_item', Crypt::decryptString($id))->where('status', 'IN')->orderBy('id', 'ASC')->get();
+        $item = InventoryModel::where('id_item', Crypt::decryptString($id))->orderBy('id', 'ASC')->get();
         $data = [
             'menu' => $this->menu,
             'title' => 'stock',
