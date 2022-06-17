@@ -53,6 +53,8 @@
             <ul class="list-unstyled">
                 <li><a href="#">Penerimaan</a></li>
                 <li><a href="#">Pengeluaran</a></li>
+                <li><a href="#">Sales</a></li>
+                <li><a href="#">Persediaan Item</a></li>
             </ul>
         </li>
     </ul>
