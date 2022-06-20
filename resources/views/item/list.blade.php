@@ -43,7 +43,8 @@
                                                     style="width: 150px;height:150px;" class="rounded-circle"></td>
                                             <td>{{ $item->nama }}</td>
                                             <td>{{ $item->type }}</td>
-                                            <td class="text-center">{{ $item->qty }}</td>
+                                            <td class="text-center">{{ $item->qty }}
+                                                {{ $item->qty ? $item->satuan : '' }}</td>
                                             <td>{{ $item->keterangan }}</td>
                                             <td>
                                                 <div class="tabledit-toolbar btn-toolbar" style="text-align: left;">

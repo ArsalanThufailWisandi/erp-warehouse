@@ -113,15 +113,15 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($details as $item)
+                                        @foreach ($details as $items)
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
-                                                <td>{{ $item->items->nama }}</td>
-                                                <td>{{ $item->type }}</td>
-                                                <td>{{ $item->qty }}</td>
+                                                <td>{{ $items->items->nama }}</td>
+                                                <td>{{ $items->type }}</td>
+                                                <td>{{ $items->qty }}</td>
                                                 <td>
                                                     <div class="tabledit-toolbar btn-toolbar" style="text-align: left;">
-                                                        <?php $id = Crypt::encryptString($item->id); ?>
+                                                        <?php $id = Crypt::encryptString($items->id); ?>
                                                         <form class="delete-form"
                                                             action="{{ route('receive_detail.destroy', $id) }}"
                                                             method="POST">

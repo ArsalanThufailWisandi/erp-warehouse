@@ -227,6 +227,7 @@ class ItemController extends Controller
             ->join('item', 'item.id', '=', 'receive_detail.id_item')
             ->where('receive.id', '=', $request->idReceive)
             ->where('receive_detail.type', '=', $request->type)
+            ->wherenull('receive_detail.deleted_at')
             ->groupBy('receive_detail.type')
             ->orderBy('item.nama', 'ASC')
             ->get();
