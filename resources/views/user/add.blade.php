@@ -50,6 +50,7 @@
                                             <option value="">--Pilih Roles--</option>
                                             <option value="Purchasing">Purchasing</option>
                                             <option value="Sales">Sales</option>
+                                            <option value="Gudang">Gudang</option>
                                         </select>
                                     </div>
                                     {!! $errors->first('roles', '<div class="invalid-validasi">:message</div>') !!}

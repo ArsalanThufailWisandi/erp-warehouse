@@ -19,9 +19,11 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <p class="text-muted mb-4 font-14">
-                                <a class="btn btn-success" href="{{ route('user.create') }}">Tambah</a>
-                            </p>
+                            @if (Auth::user()->roles == 'Purchasing')
+                                <p class="text-muted mb-4 font-14">
+                                    <a class="btn btn-success" href="{{ route('user.create') }}">Tambah</a>
+                                </p>
+                            @endif
                             <table id="datatable-buttons" class="table table-striped table-bordered w-100">
                                 <thead>
                                     <tr>
@@ -48,26 +50,28 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                <div class="tabledit-toolbar btn-toolbar" style="text-align: left;">
-                                                    <div class="btn-group btn-group-sm" style="float: none;">
-                                                        <?php $id = Crypt::encryptString($item->id); ?>
-                                                        <form class="delete-form"
-                                                            action="{{ route('user.destroy', $id) }}" method="POST">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="button"
-                                                                class="tabledit-delete-button btn btn-sm btn-danger delete_confirm"
-                                                                style="float: none; margin: 5px;">
-                                                                <span class="ti-trash"></span>
-                                                            </button>
-                                                            <a href="{{ route('user.edit', $id) }}"
-                                                                class="tabledit-edit-button btn btn-sm btn-info"
-                                                                style="float: none; margin: 5px;">
-                                                                <span class="ti-pencil"></span>
-                                                            </a>
-                                                        </form>
+                                                @if (Auth::user()->roles == 'Purchasing')
+                                                    <div class="tabledit-toolbar btn-toolbar" style="text-align: left;">
+                                                        <div class="btn-group btn-group-sm" style="float: none;">
+                                                            <?php $id = Crypt::encryptString($item->id); ?>
+                                                            <form class="delete-form"
+                                                                action="{{ route('user.destroy', $id) }}" method="POST">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="button"
+                                                                    class="tabledit-delete-button btn btn-sm btn-danger delete_confirm"
+                                                                    style="float: none; margin: 5px;">
+                                                                    <span class="ti-trash"></span>
+                                                                </button>
+                                                                <a href="{{ route('user.edit', $id) }}"
+                                                                    class="tabledit-edit-button btn btn-sm btn-info"
+                                                                    style="float: none; margin: 5px;">
+                                                                    <span class="ti-pencil"></span>
+                                                                </a>
+                                                            </form>
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach

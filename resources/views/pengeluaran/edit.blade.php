@@ -19,6 +19,11 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
+                            @if (Auth::user()->roles == 'Sales')
+                                <?php $readonly = ''; ?>
+                            @else
+                                <?php $readonly = 'readonly'; ?>
+                            @endif
                             <form action="{{ route('pengeluaran.update', Crypt::encryptString($header->id)) }}"
                                 method="POST">
                                 @csrf
@@ -37,7 +42,8 @@
                                         <div class="form-group mb-0">
                                             <label class="my-2 pb-1">Tgl Pengeluaran</label>
                                             <input type="date" class="form-control" name="tgl_pengeluaran"
-                                                value="{{ $header->tgl_pengeluaran }}" placeholder="Tgl Pengeluaran" />
+                                                value="{{ $header->tgl_pengeluaran }}" {{ $readonly }}
+                                                placeholder="Tgl Pengeluaran" />
                                             {!! $errors->first('tgl_pengeluaran', '<div class="invalid-validasi">:message</div>') !!}
                                         </div>
                                     </div>
@@ -47,7 +53,7 @@
                                         <div class="form-group mb-0">
                                             <label class="my-2 py-1">Keterangan</label>
                                             <div>
-                                                <textarea name="keterangan" class="form-control" rows="5" required placeholder="Keterangan">{{ $header->keterangan }}</textarea>
+                                                <textarea name="keterangan" class="form-control" rows="5" {{ $readonly }} required placeholder="Keterangan">{{ $header->keterangan }}</textarea>
                                                 {!! $errors->first('keterangan', '<div class="invalid-validasi">:message</div>') !!}
                                             </div>
                                         </div>
@@ -56,29 +62,35 @@
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div>
-                                            <button type="submit" class="btn btn-primary waves-effect waves-light">
-                                                Simpan
-                                            </button>
-                                            <button type="button" class="btn btn-info waves-effect waves-light"
-                                                data-toggle="modal" data-target="#myModal">Tambah</button>
+                                            @if (Auth::user()->roles == 'Sales')
+                                                <button type="submit" class="btn btn-primary waves-effect waves-light">
+                                                    Simpan
+                                                </button>
+                                            @endif
+                                            @if (Auth::user()->roles == 'Gudang')
+                                                <button type="button" class="btn btn-info waves-effect waves-light"
+                                                    data-toggle="modal" data-target="#myModal">Tambah</button>
+                                            @endif
                                         </div>
                                     </div>
                             </form>
                             <div class="col-sm-6">
                                 <div class="col-sm-3 ml-auto">
-                                    <form class="delete-form"
-                                        action="{{ route('pengeluaran.approve_pengeluaran', Crypt::encryptString($header->id)) }}"
-                                        method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        @if (count($details) > 0)
-                                            <button type="button"
-                                                class="tabledit-delete-button btn btn-sm btn-success approve_confirm"
-                                                style="float: none; margin: 5px;">
-                                                <span class="ti-check"></span> Approve
-                                            </button>
-                                        @endif
-                                    </form>
+                                    @if (Auth::user()->roles == 'Gudang')
+                                        <form class="delete-form"
+                                            action="{{ route('pengeluaran.approve_pengeluaran', Crypt::encryptString($header->id)) }}"
+                                            method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            @if (count($details) > 0)
+                                                <button type="button"
+                                                    class="tabledit-delete-button btn btn-sm btn-success approve_confirm"
+                                                    style="float: none; margin: 5px;">
+                                                    <span class="ti-check"></span> Approve
+                                                </button>
+                                            @endif
+                                        </form>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -110,10 +122,12 @@
                                                             method="POST">
                                                             @csrf
                                                             @method('DELETE')
-                                                            <button type="button"
-                                                                class="tabledit-delete-button btn btn-sm btn-danger delete_confirm">
-                                                                <span class="ti-trash"></span>
-                                                            </button>
+                                                            @if (Auth::user()->roles == 'Gudang')
+                                                                <button type="button"
+                                                                    class="tabledit-delete-button btn btn-sm btn-danger delete_confirm">
+                                                                    <span class="ti-trash"></span>
+                                                                </button>
+                                                            @endif
                                                         </form>
                                                     </div>
                                                 </td>
@@ -149,7 +163,8 @@
                         <div class="form-group mb-0">
                             <label class="my-2 py-1">Type</label>
                             <div>
-                                <select class="select2 form-control mb-3 custom-select type" name="type" id="type" required>
+                                <select class="select2 form-control mb-3 custom-select type" name="type" id="type"
+                                    required>
                                     <option value="">--Pilih Type--</option>
                                     @foreach ($type as $type)
                                         <option value="{{ $type }}">

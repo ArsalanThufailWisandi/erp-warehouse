@@ -19,11 +19,11 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            {{-- @if (Auth::user()->roles == 'Sales') --}}
-                            <p class="text-muted mb-4 font-14">
-                                <a class="btn btn-success" href="{{ route('pengeluaran.create') }}">Tambah</a>
-                            </p>
-                            {{-- @endif --}}
+                            @if (Auth::user()->roles == 'Sales')
+                                <p class="text-muted mb-4 font-14">
+                                    <a class="btn btn-success" href="{{ route('pengeluaran.create') }}">Tambah</a>
+                                </p>
+                            @endif
                             <table id="datatable-buttons" class="table table-striped table-bordered w-100">
                                 <thead>
                                     <tr>
@@ -79,7 +79,7 @@
                                                                     <span class="ti-pencil"></span>
                                                                 </a>
                                                             @endif
-                                                            @if ($item->status == 'Pengiriman Permintaan')
+                                                            @if ($item->status == 'Pengiriman Permintaan' and Auth::user()->roles == 'Gudang')
                                                                 <a href="{{ route('pengeluaran.acceptance', $id) }}"
                                                                     class="tabledit-edit-button btn btn-sm btn-secondary"
                                                                     style="float: none; margin: 5px;">

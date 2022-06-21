@@ -19,6 +19,11 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
+                            @if (Auth::user()->roles == 'Sales')
+                                <?php $readonly = ''; ?>
+                            @else
+                                <?php $readonly = 'readonly'; ?>
+                            @endif
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group mb-0">
@@ -32,7 +37,8 @@
                                     <div class="form-group mb-0">
                                         <label class="my-2 pb-1">Tgl Pengeluaran</label>
                                         <input type="date" class="form-control" name="tgl_pengeluaran"
-                                            value="{{ $header->tgl_pengeluaran }}" placeholder="Tgl Pengeluaran" />
+                                            {{ $readonly }} value="{{ $header->tgl_pengeluaran }}"
+                                            placeholder="Tgl Pengeluaran" />
                                         {!! $errors->first('tgl_pengeluaran', '<div class="invalid-validasi">:message</div>') !!}
                                     </div>
                                 </div>
@@ -42,7 +48,7 @@
                                     <div class="form-group mb-0">
                                         <label class="my-2 py-1">Keterangan</label>
                                         <div>
-                                            <textarea name="keterangan" class="form-control" rows="5" required placeholder="Keterangan">{{ $header->keterangan }}</textarea>
+                                            <textarea name="keterangan" class="form-control" rows="5" {{ $readonly }} required placeholder="Keterangan">{{ $header->keterangan }}</textarea>
                                             {!! $errors->first('keterangan', '<div class="invalid-validasi">:message</div>') !!}
                                         </div>
                                     </div>

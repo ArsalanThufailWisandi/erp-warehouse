@@ -19,11 +19,49 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            @if (Auth::user()->roles == 'Purchasing')
-                                <p class="text-muted mb-4 font-14">
-                                    <a class="btn btn-success" href="{{ route('item.create') }}">Tambah</a>
-                                </p>
-                            @endif
+                            <form>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group mb-0">
+                                            <label class="my-2 py-1">Type</label>
+                                            <div>
+                                                <select class="select2 form-control mb-3 custom-select" name="type">
+                                                    <option value="">--Pilih Type--</option>
+                                                    @foreach ($type as $type)
+                                                        <option value="{{ $type }}"<?php
+                                                        if (isset($_GET['type']) and $_GET['type'] != '' and $type == $_GET['type']) {
+                                                            echo 'selected';
+                                                        }
+                                                        ?>>
+                                                            {{ $type }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="my-2 pb-1">Qty</label>
+                                        <div class="form-group mb-0">
+                                            <input type="number" class="form-control" name="qty"
+                                                value="<?php if (isset($_GET['qty']) and $_GET['qty'] != '') {
+                                                    echo $_GET['qty'];
+                                                } ?>" placeholder="qty" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group mb-0">
+                                        <label class="my-2 pb-1">&nbsp;</label>
+                                        <div class="form-group mb-0">
+                                            <button type="submit" class="btn btn-primary waves-effect waves-light">
+                                                Cari
+                                            </button>
+                                            <a class="btn btn-secondary waves-effect m-l-5"
+                                                href="{{ route('report.rep_item') }}">Batal</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <br>
                             <table id="datatable-buttons" class="table table-striped table-bordered w-100">
                                 <thead>
                                     <tr>
@@ -33,7 +71,6 @@
                                         <th>Type</th>
                                         <th class="text-center">Qty</th>
                                         <th>Keterangan</th>
-                                        <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -48,40 +85,6 @@
                                             <td class="text-center">{{ $item->qty }}
                                                 {{ $item->qty ? $item->satuan : '' }}</td>
                                             <td>{{ $item->keterangan }}</td>
-                                            <td>
-                                                <div class="tabledit-toolbar btn-toolbar" style="text-align: left;">
-                                                    <div class="btn-group btn-group-sm" style="float: none;">
-                                                        <?php $id = Crypt::encryptString($item->id); ?>
-                                                        <form class="delete-form"
-                                                            action="{{ route('item.destroy', $id) }}" method="POST">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            @if (Auth::user()->roles == 'Purchasing')
-                                                                <button type="button"
-                                                                    class="tabledit-delete-button btn btn-sm btn-danger delete_confirm"
-                                                                    style="float: none; margin: 5px;">
-                                                                    <span class="ti-trash"></span>
-                                                                </button>
-                                                                <a href="{{ route('item.edit', $id) }}"
-                                                                    class="tabledit-edit-button btn btn-sm btn-info"
-                                                                    style="float: none; margin: 5px;">
-                                                                    <span class="ti-pencil"></span>
-                                                                </a>
-                                                            @endif
-                                                            <a href="{{ route('item.show', $id) }}"
-                                                                class="tabledit-edit-button btn btn-sm btn-primary"
-                                                                style="float: none; margin: 5px;">
-                                                                <span class="ti-eye"></span>
-                                                            </a>
-                                                            <a href="{{ route('item.stock', $id) }}"
-                                                                class="tabledit-edit-button btn btn-sm btn-success"
-                                                                style="float: none; margin: 5px;">
-                                                                <span class="ti-dropbox"></span>
-                                                            </a>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>

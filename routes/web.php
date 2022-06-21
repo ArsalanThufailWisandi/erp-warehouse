@@ -9,6 +9,7 @@ use App\Http\Controllers\PengeluaranDetailController;
 use App\Http\Controllers\RakController;
 use App\Http\Controllers\ReceiveController;
 use App\Http\Controllers\ReceiveDetailController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\VendorController;
@@ -63,5 +64,9 @@ Route::group(
         Route::get('/acceptance/{id}', [PengeluaranController::class, 'acceptance'])->name('pengeluaran.acceptance');
         Route::patch('/approve_pengembalian/{id}', [PengeluaranController::class, 'approve_pengembalian'])->name('pengeluaran.approve_pengembalian');
         Route::resource('pengeluaran_detail', PengeluaranDetailController::class);
+        Route::get('penerimaan', [ReportController::class, 'penerimaan'])->name('report.penerimaan');
+        Route::get('rep_pengeluaran', [ReportController::class, 'rep_pengeluaran'])->name('report.rep_pengeluaran');
+        // Route::get('sales', [ReportController::class, 'sales'])->name('report.sales');
+        Route::get('rep_item', [ReportController::class, 'rep_item'])->name('report.rep_item');
     }
 );

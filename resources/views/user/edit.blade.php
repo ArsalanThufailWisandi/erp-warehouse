@@ -55,6 +55,8 @@
                                         </option>
                                         <option value="Sales" {{ $item->roles == 'Sales' ? 'selected' : '' }}>
                                             Sales</option>
+                                        <option value="Gudang" {{ $item->roles == 'Gudang' ? 'selected' : '' }}>
+                                            Gudang</option>
                                     </select>
                                     {!! $errors->first('roles', '<div class="invalid-validasi">:message</div>') !!}
                                 </div>

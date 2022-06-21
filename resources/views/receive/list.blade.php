@@ -69,18 +69,20 @@
                                                                 <span class="ti-eye"></span>
                                                             </a>
                                                             @if ($item->status == 'Proses Penerimaan')
-                                                                <button type="button"
-                                                                    class="tabledit-delete-button btn btn-sm btn-danger delete_confirm"
-                                                                    style="float: none; margin: 5px;">
-                                                                    <span class="ti-trash"></span>
-                                                                </button>
-                                                                <a href="{{ route('receive.edit', $id) }}"
-                                                                    class="tabledit-edit-button btn btn-sm btn-info"
-                                                                    style="float: none; margin: 5px;">
-                                                                    <span class="ti-pencil"></span>
-                                                                </a>
+                                                                @if (Auth::user()->roles == 'Purchasing')
+                                                                    <button type="button"
+                                                                        class="tabledit-delete-button btn btn-sm btn-danger delete_confirm"
+                                                                        style="float: none; margin: 5px;">
+                                                                        <span class="ti-trash"></span>
+                                                                    </button>
+                                                                    <a href="{{ route('receive.edit', $id) }}"
+                                                                        class="tabledit-edit-button btn btn-sm btn-info"
+                                                                        style="float: none; margin: 5px;">
+                                                                        <span class="ti-pencil"></span>
+                                                                    </a>
+                                                                @endif
                                                             @endif
-                                                            @if ($item->status == 'Proses Penempatan')
+                                                            @if ($item->status == 'Proses Penempatan' and Auth::user()->roles == 'Gudang')
                                                                 <a href="{{ route('receive.penempatan', $id) }}"
                                                                     class="tabledit-edit-button btn btn-sm btn-secondary"
                                                                     style="float: none; margin: 5px;">
