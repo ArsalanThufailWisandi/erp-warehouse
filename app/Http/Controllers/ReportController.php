@@ -8,6 +8,7 @@ use App\Models\ReceiveModel;
 use App\Models\SupplierModel;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ReportController extends Controller
 {
@@ -127,5 +128,54 @@ class ReportController extends Controller
             'type' => ['Chemical', 'Alat'],
         ];
         return view('report.item')->with($data);
+    }
+
+    public function rep_sales(Request $request)
+    {
+        if ($request->type or $request->item) {
+            $matchThese = [];
+            if ($request->type) {
+                $type = array('item.type' => $request->type);
+                array_push($matchThese, $type);
+            } else {
+                $type = array();
+            }
+            if ($request->item) {
+                $item = array('item.id' => $request->item);
+                array_push($matchThese, $item);
+            } else {
+                $item = array();
+            }
+            $matchThese = $type + $item;
+            $item = DB::table('pengeluaran')
+                ->select('name', 'pengeluaran.kode_pengeluaran', 'pengeluaran.tgl_pengeluaran', 'item.nama', 'item.type')
+                ->selectRaw('SUM(pengeluaran_detail.qty) as qty')
+                ->join('pengeluaran_detail', 'pengeluaran_detail.id_pengeluaran', '=', 'pengeluaran.id')
+                ->join('item', 'item.id', '=', 'pengeluaran_detail.id_item')
+                ->join('users', 'users.id', '=', 'pengeluaran.id_user')
+                ->where('pengeluaran.status', '=', 'Selesai Permintaan')
+                ->where($matchThese)
+                ->groupBy('users.id', 'pengeluaran_detail.id_item')
+                ->get();
+        } else {
+            $item = DB::table('pengeluaran')
+                ->select('name', 'pengeluaran.kode_pengeluaran', 'pengeluaran.tgl_pengeluaran', 'item.nama', 'item.type')
+                ->selectRaw('SUM(pengeluaran_detail.qty) as qty')
+                ->join('pengeluaran_detail', 'pengeluaran_detail.id_pengeluaran', '=', 'pengeluaran.id')
+                ->join('item', 'item.id', '=', 'pengeluaran_detail.id_item')
+                ->join('users', 'users.id', '=', 'pengeluaran.id_user')
+                ->where('pengeluaran.status', '=', 'Selesai Permintaan')
+                ->groupBy('users.id', 'pengeluaran_detail.id_item')
+                ->get();
+        }
+        $data = [
+            'menu' => $this->menu,
+            'title' => 'list',
+            'list' => $item,
+            'item' => ItemModel::all(),
+            'type' => ['Chemical', 'Alat'],
+        ];
+        // dd($data);
+        return view('report.sales')->with($data);
     }
 }

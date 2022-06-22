@@ -23,6 +23,25 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group mb-0">
+                                            <label class="my-2 py-1">Item</label>
+                                            <div>
+                                                <select class="select2 form-control mb-3 custom-select" name="item">
+                                                    <option value="">--Pilih Item--</option>
+                                                    @foreach ($item as $item)
+                                                        <option value="{{ $item->id }}"<?php
+                                                        if (isset($_GET['item']) and $_GET['item'] != '' and $item->id == $_GET['item']) {
+                                                            echo 'selected';
+                                                        }
+                                                        ?>>
+                                                            {{ $item->nama }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group mb-0">
                                             <label class="my-2 py-1">Type</label>
                                             <div>
                                                 <select class="select2 form-control mb-3 custom-select" name="type">
@@ -66,25 +85,20 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th class="text-center">Gambar</th>
+                                        <th class="text-center">Sales</th>
                                         <th>Nama Item</th>
                                         <th>Type</th>
                                         <th class="text-center">Qty</th>
-                                        <th>Keterangan</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($list as $item)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td class="text-center"><img
-                                                    src="{{ URL::asset('files/item/' . $item->gambar) }}"
-                                                    style="width: 150px;height:150px;" class="rounded-circle"></td>
+                                            <td>{{ $item->name }}</td>
                                             <td>{{ $item->nama }}</td>
                                             <td>{{ $item->type }}</td>
-                                            <td class="text-center">{{ $item->qty }}
-                                                {{ $item->qty ? $item->satuan : '' }}</td>
-                                            <td>{{ $item->keterangan }}</td>
+                                            <td>{{ $item->qty }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>

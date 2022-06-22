@@ -66,7 +66,7 @@ Route::group(
         Route::resource('pengeluaran_detail', PengeluaranDetailController::class);
         Route::get('penerimaan', [ReportController::class, 'penerimaan'])->name('report.penerimaan');
         Route::get('rep_pengeluaran', [ReportController::class, 'rep_pengeluaran'])->name('report.rep_pengeluaran');
-        // Route::get('sales', [ReportController::class, 'sales'])->name('report.sales');
+        Route::get('rep_sales', [ReportController::class, 'rep_sales'])->name('report.rep_sales');
         Route::get('rep_item', [ReportController::class, 'rep_item'])->name('report.rep_item');
     }
 );

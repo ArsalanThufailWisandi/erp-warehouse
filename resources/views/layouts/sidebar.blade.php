@@ -62,7 +62,7 @@
             <ul class="list-unstyled">
                 <li><a href="{{ route('report.penerimaan') }}">Request</a></li>
                 <li><a href="{{ route('report.rep_pengeluaran') }}">Pengeluaran</a></li>
-                {{-- <li><a href="{{ route('report.sales') }}">Sales</a></li> --}}
+                <li><a href="{{ route('report.rep_sales') }}">Sales</a></li>
                 <li><a href="{{ route('report.rep_item') }}">Persediaan Item</a></li>
             </ul>
         </li>
