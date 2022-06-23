@@ -21,7 +21,26 @@
                         <div class="card-body">
                             <form>
                                 <div class="row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-2">
+                                        <div class="form-group mb-0">
+                                            <label class="my-2 py-1">Sales</label>
+                                            <div>
+                                                <select class="select2 form-control mb-3 custom-select" name="name">
+                                                    <option value="">--Pilih Sales--</option>
+                                                    @foreach ($users as $user)
+                                                        <option value="{{ $user->id }}"<?php
+                                                        if (isset($_GET['name']) and $_GET['name'] != '' and $user->id == $_GET['name']) {
+                                                            echo 'selected';
+                                                        }
+                                                        ?>>
+                                                            {{ $user->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
                                         <div class="form-group mb-0">
                                             <label class="my-2 py-1">Item</label>
                                             <div>
@@ -40,7 +59,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-2">
                                         <div class="form-group mb-0">
                                             <label class="my-2 py-1">Type</label>
                                             <div>
@@ -59,10 +78,27 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
+                                        <label class="my-2 pb-1">Tgl Pengeluaran</label>
+                                        <div class="form-group mb-0">
+                                            <div>
+                                                <div class="input-daterange input-group" id="date-range">
+                                                    <input type="text" class="form-control" name="start"
+                                                        value="<?php if (isset($_GET['start']) and $_GET['start'] != '') {
+                                                            echo $_GET['start'];
+                                                        } ?>" placeholder="Start Date">
+                                                    <input type="text" class="form-control" name="end"
+                                                        value="<?php if (isset($_GET['end']) and $_GET['end'] != '') {
+                                                            echo $_GET['end'];
+                                                        } ?>" placeholder="End Date">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
                                         <label class="my-2 pb-1">Qty</label>
                                         <div class="form-group mb-0">
-                                            <input type="number" class="form-control" name="qty"
+                                            <input type="number" class="form-control" name="qty" min='0'
                                                 value="<?php if (isset($_GET['qty']) and $_GET['qty'] != '') {
                                                     echo $_GET['qty'];
                                                 } ?>" placeholder="qty" />
@@ -75,7 +111,7 @@
                                                 Cari
                                             </button>
                                             <a class="btn btn-secondary waves-effect m-l-5"
-                                                href="{{ route('report.rep_item') }}">Batal</a>
+                                                href="{{ route('report.rep_sales') }}">Batal</a>
                                         </div>
                                     </div>
                                 </div>
