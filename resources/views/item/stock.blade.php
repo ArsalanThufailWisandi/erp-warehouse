@@ -23,15 +23,24 @@
                                 <div class="col-md-6">
                                     <div class="form-group mb-0">
                                         <label class="my-2 pb-1">Nama Rak</label>
-                                        <input type="text" class="form-control"
-                                            value="{{ $list[0]->raks->no_rak . ' [' . $list[0]->raks->keterangan . ']' }}"
-                                            disabled />
+                                        @if (count($list))
+                                            <?php
+                                            $qty = $list[0]->raks->no_rak . ' [' . $list[0]->raks->keterangan . ']';
+                                            $count = count($list);
+                                            ?>
+                                        @else
+                                            <?php
+                                            $qty = '-';
+                                            $count = '-';
+                                            ?>
+                                        @endif
+                                        <input type="text" class="form-control" value="{{ $qty }}" disabled />
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group mb-0">
                                         <label class="my-2 pb-1">Qty</label>
-                                        <input type="text" class="form-control" value="{{ count($list) }}" disabled />
+                                        <input type="text" class="form-control" value="{{ $count }}" disabled />
                                     </div>
                                 </div>
                             </div>
