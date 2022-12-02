@@ -60,6 +60,9 @@
                     <a href="#" class="logo">
                         <img src="{{ URL::asset('assets/images/logo.png') }}" alt="" class=""
                             style="height: 60px">
+
+                        <img src="{{ URL::asset('assets/images/logo_provices.jpg') }}" alt="" class=""
+                            style="height: 73px">
                     </a>
                 </div>
             </div>

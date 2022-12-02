@@ -4,7 +4,8 @@
             <li class="list-inline-item dropdown notification-list">
                 <a class="nav-link dropdown-toggle arrow-none waves-effect nav-user" data-toggle="dropdown" href="#"
                     role="button" aria-haspopup="false" aria-expanded="false">
-                    <img src="{{ URL::asset('assets/images/logo.png') }}" alt="user" class="rounded-circle">
+                    <img src="{{ URL::asset('assets/images/logo_provices.jpg') }}" alt="user"
+                        class="rounded-circle">
                 </a>
                 <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
                     <div class="dropdown-item noti-title">
